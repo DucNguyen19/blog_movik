@@ -5,6 +5,11 @@ import {
   setCookie,
 } from "./cookies";
 import Cookies from "js-cookie";
+import getConfig from 'next/config'
+
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
+axios.defaults.baseURL = publicRuntimeConfig.baseUrl
+
 export const setToken = (token) => {
   axios.defaults.headers.common[
     "Authorization"
@@ -24,9 +29,10 @@ axios.interceptors.response.use(
   (error) => {
     const { response } = error;
     if (response && [401, 403].includes(response.status)) {
-      if (typeof window !== "undefined")
+      if (typeof window !== "undefined") {
         window.localStorage?.removeItem("token");
-      deleteCookie("token");
+        deleteCookie("token");
+      }
       window.location.href = "/login";
     }
     // throw error
@@ -64,3 +70,8 @@ axios.interceptors.response.use(
 // 	},
 // 	(error) => Promise.reject(error)
 // );
+
+
+export const login = param => {
+  return axios.post('/api/login', param)
+}

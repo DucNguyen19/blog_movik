@@ -19,3 +19,9 @@ body {
 	vertical-align: middle !important;
 	margin-bottom: 3px !important;
 }
+
+.ant-btn-primary {
+	background: #0061af;
+	background-color: #0061af;
+	border: none !important;
+}
