@@ -26,6 +26,6 @@ body {
 	border: none !important;
 }
 
-a, button {
+a, button, input {
 	outline: none;
 }

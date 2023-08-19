@@ -1,13 +1,5 @@
-import LayoutPage from "@/components/Layout/LayoutLanding";
-import {
-  FacebookFilled,
-  InstagramFilled,
-  QqCircleFilled,
-  TwitterCircleFilled,
-  YoutubeFilled,
-  AppleFilled,
-} from "@ant-design/icons";
 import React from "react";
+import LandingPage from "@/components/LandingPage";
 
 function Home() {
   const data = {
@@ -69,8 +61,23 @@ function Home() {
       _id: "aCK7thBlXP",
       type: "banner",
       is_show: true,
-      image: "http://image",
-      link: "http://link.com",
+      list: [
+        {
+          image:
+            "https://www.shawnmendesofficial.com/files/2023/06/sm_wth_desktop_outnow-compressed.jpg",
+          link: "#",
+        },
+        {
+          image:
+            "https://www.shawnmendesofficial.com/files/2022/09/sm_wyg_desktop_v3-compressed.jpg",
+          link: "#",
+        },
+        {
+          image:
+            "https://www.shawnmendesofficial.com/files/2022/09/smtwt-desktop-compressed.jpg",
+          link: "#",
+        },
+      ],
       created_at: 1692269317027,
       updated_at: 1692270045233,
     },
@@ -80,11 +87,71 @@ function Home() {
       is_show: true,
       title: "media",
       link: "media.com",
-      created_at: 1692283158163,
-      updated_at: 1692283234854,
+      list: {
+        music: [
+          {
+            image:
+              "https://www.shawnmendesofficial.com/files/2020/11/release_202011_SMJB_Monster.jpg",
+            heading: "WHAT THE HELL ARE WE DYING FOR ?",
+            button: "Stream/download",
+            link: "#",
+          },
+          {
+            image:
+              "https://www.shawnmendesofficial.com/files/2021/07/release_202107_ab67616d0000b273bec684438c0610c1caab0198.jpg",
+            heading: "KEXI (Remix)",
+            button: "Stream/download",
+            link: "#",
+          },
+        ],
+        video: [
+          {
+            image:
+              "https://www.shawnmendesofficial.com/files/2022/09/tp4fUH2E8uc-compressed.jpg",
+            heading:
+              "Shawn Mendes – Three Empty Words (Paper Mate InkJoy Live Lyric Video)",
+            link: "https://www.youtube-nocookie.com/watch?v=Ou413HaAJj4",
+          },
+          {
+            image:
+              "https://www.shawnmendesofficial.com/files/2022/09/KrgJp7Z1Hv8-compressed.jpg",
+            heading: "Shawn Mendes – When You’re Gone",
+            link: "https://www.youtube-nocookie.com/watch?v=Ou413HaAJj4",
+          },
+        ],
+      },
+    },
+    store: {
+      is_show: true,
+      list: [
+        {
+          image:
+            "https://www.shawnmendesofficial.com/files/2022/10/ShawnMendes_Wonder_LP-D2C1_0-compressed.jpg",
+          heading: "WONDER LIMITED CLEAR VINYL W/ FOLDOUT POSTER",
+          link: "#",
+        },
+        {
+          image:
+            "https://www.shawnmendesofficial.com/files/2022/10/ShawnMendes_Wonder_CD-CardDeck-01_50_0-compressed.jpg",
+          heading:
+            "WONDER DELUXE PACKAGE CD W/ LIMITED COLLECTIBLE CARD PACK I INSIDE",
+          link: "#",
+        },
+        {
+          image:
+            "https://www.shawnmendesofficial.com/files/2022/10/zine_0.-compressed.jpg",
+          heading:
+            "WONDER LIMITED EDITION ZINE W/ CD & LIMITED COLLECTIBLE CARD PACK VI INSIDE",
+          link: "#",
+        },
+      ],
+    },
+    tour: {
+      is_show: true,
+      list: [],
     },
     application_setting: {
-      background_color: "#fff",
+      background_color: null,
       button_color: "red",
       title: "Movick blog",
       header_title: "Ebeta",
@@ -93,106 +160,7 @@ function Home() {
     },
   };
 
-  const socialsData = data?.header?.social?.map((s) => {
-    switch (s?.image) {
-      case "facebook":
-        return {
-          icon: <FacebookFilled className="text-xl text-[#888FC0]" />,
-          link: s.link,
-        };
-      case "instagram":
-        return {
-          icon: <InstagramFilled className="text-xl text-[#888FC0]" />,
-          link: s.link,
-        };
-      case "spotify":
-        return {
-          icon: <QqCircleFilled className="text-xl text-[#888FC0]" />,
-          link: s.link,
-        };
-      case "twitter":
-        return {
-          icon: <TwitterCircleFilled className="text-xl text-[#888FC0]" />,
-          link: s.link,
-        };
-      case "youtube":
-        return {
-          icon: <YoutubeFilled className="text-xl text-[#888FC0]" />,
-          link: s.link,
-        };
-      case "apple":
-        return {
-          icon: <AppleFilled className="text-xl text-[#888FC0]" />,
-          link: s.link,
-        };
-    }
-  });
-
-  return (
-    <div
-      className="text-[17px]"
-      style={{
-        backgroundColor: data?.application_setting?.background_color || "#000",
-      }}
-    >
-      <header
-        className="h-[76px] fixed inset-0 px-8 flex items-center shadow-[0_3px_5px_0_rgba(0,0,0,0.1)]"
-        style={{
-          backgroundColor: data?.header?.color || "#000",
-        }}
-      >
-        <div className="w-2/5 flex items-center gap-6">
-          {data?.header?.page?.map((p, index) => (
-            <a
-              key={index}
-              href={p.slug}
-              target="_blank"
-              className="uppercase text-[#888fc0]"
-            >
-              {p.title}
-            </a>
-          ))}
-        </div>
-        <div className="w-1/5 flex justify-center">
-          <img
-            src={data?.header?.image || "/images/logo.png"}
-            className="w-[180px]"
-          />
-        </div>
-        <div className="w-2/5 flex items-center justify-end gap-4">
-          {socialsData?.map((s, index) => (
-            <a key={index} href={s.link}>
-              {s.icon}
-            </a>
-          ))}
-        </div>
-      </header>
-
-      <main className="m-8 mt-[76px] min-h-screen">123</main>
-
-      <footer
-        className="h-[76px] px-8 flex items-center"
-        style={{
-          backgroundColor: data?.header?.color || "#000",
-        }}
-      >
-        <div className="flex-1 text-[#888FCC]">
-          <span>© 2023 Island</span>
-          <span className="ml-6">
-            Privacy Policy Terms & Conditions Do Not Sell My Personal
-            Information Cookie Choices
-          </span>
-        </div>
-        <div className="w-2/5 flex items-center justify-end gap-4">
-          {socialsData?.map((s, index) => (
-            <a key={index} href={s.link}>
-              {s.icon}
-            </a>
-          ))}
-        </div>
-      </footer>
-    </div>
-  );
+  return <LandingPage data={data} />;
 }
 
 export default Home;
