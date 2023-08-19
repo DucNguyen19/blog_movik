@@ -1,6 +1,7 @@
 html {
 	/* width: 100vw;*/
 	height: 100vh;
+	scroll-behavior: smooth;
 }
 
 * {
@@ -24,4 +25,8 @@ body {
 	background: #0061af;
 	background-color: #0061af;
 	border: none !important;
+}
+
+a, button, input {
+	outline: none;
 }
