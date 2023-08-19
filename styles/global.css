@@ -25,3 +25,7 @@ body {
 	background-color: #0061af;
 	border: none !important;
 }
+
+a, button {
+	outline: none;
+}
