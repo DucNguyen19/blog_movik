@@ -23,7 +23,7 @@ function Home() {
         },
         {
           title: "Tour",
-          slug: "#tour",
+          slug: "/tour",
         },
         {
           title: "Subscribe",

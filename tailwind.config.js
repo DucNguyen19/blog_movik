@@ -14,6 +14,8 @@ module.exports = {
       },
       colors: {
         "pri-landing": "#FFC0A5",
+        "pri-landing-blue": "#888fc0",
+        "pri-tour": "#A67CB8",
       },
     },
   },
