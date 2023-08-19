@@ -1,4 +1,5 @@
 import React from "react";
+import Head from "next/head";
 import LandingPage from "@/components/LandingPage";
 
 function Home() {
@@ -23,7 +24,7 @@ function Home() {
         },
         {
           title: "Tour",
-          slug: "/tour",
+          slug: "#tour",
         },
         {
           title: "Subscribe",
@@ -146,13 +147,94 @@ function Home() {
         },
       ],
     },
-    tour: {
+    tours: {
       is_show: true,
-      list: [],
+      list: [
+        {
+          is_show: true,
+          isVip: true,
+          link: "/",
+          info: {
+            date: "SEP 27, 2023",
+            title: "SEMINOLE HARD ROCK HOTEL & CASINO - HOLLYWOOD",
+            artist: "HOLLYWOOD, FL",
+            type: "SOLO ACOUSTIC TOUR.",
+          },
+          buttons: [
+            {
+              vipLink: "#",
+              link: "#",
+            },
+          ],
+        },
+        {
+          is_show: true,
+          isVip: true,
+          link: "#",
+          info: {
+            date: "SEP 27, 2023",
+            title: "SEMINOLE HARD ROCK HOTEL & CASINO - HOLLYWOOD",
+            artist: "HOLLYWOOD, FL",
+            type: "SOLO ACOUSTIC TOUR.",
+          },
+          buttons: [
+            {
+              vipLink: "#",
+              link: "#",
+            },
+          ],
+        },
+        {
+          is_show: true,
+          isVip: false,
+          link: "#",
+          info: {
+            date: "SEP 27, 2023",
+            title: "SEMINOLE HARD ROCK HOTEL & CASINO - HOLLYWOOD",
+            artist: "HOLLYWOOD, FL",
+            type: "SOLO ACOUSTIC TOUR.",
+          },
+          buttons: [
+            {
+              vipLink: "#",
+              link: "#",
+            },
+          ],
+        },
+        {
+          is_show: true,
+          isVip: false,
+          link: "#",
+          info: {
+            date: "SEP 27, 2023",
+            title: "SEMINOLE HARD ROCK HOTEL & CASINO - HOLLYWOOD",
+            artist: "HOLLYWOOD, FL",
+            type: "SOLO ACOUSTIC TOUR.",
+          },
+          button: {
+            vipLink: "#",
+            link: "#",
+          },
+        },
+        {
+          is_show: true,
+          isVip: true,
+          info: {
+            date: "SEP 27, 2023",
+            title: "SEMINOLE HARD ROCK HOTEL & CASINO - HOLLYWOOD",
+            artist: "HOLLYWOOD, FL",
+            type: "SOLO ACOUSTIC TOUR.",
+          },
+          button: {
+            vipLink: "#",
+            link: "#",
+          },
+        },
+      ],
     },
     application_setting: {
       background_color: null,
-      button_color: "red",
+      button_color: null,
       title: "Movick blog",
       header_title: "Ebeta",
       store_title: "Store",
@@ -160,7 +242,14 @@ function Home() {
     },
   };
 
-  return <LandingPage data={data} />;
+  return (
+    <>
+      <Head>
+        <title>{data?.application_setting?.title || "Home"}</title>
+      </Head>
+      <LandingPage data={data} />
+    </>
+  );
 }
 
 export default Home;

@@ -8,9 +8,9 @@ import {
   CaretLeftFilled,
   CaretRightFilled,
 } from "@ant-design/icons";
+import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import { useEffect, useState } from "react";
 import VideoModal from "./VideoModal";
 
 function LandingPage({ data }) {
@@ -26,42 +26,42 @@ function LandingPage({ data }) {
       case "facebook":
         return {
           icon: (
-            <FacebookFilled className="text-xl text-[#888FC0] hover:text-pri-landing" />
+            <FacebookFilled className="text-xl text-pri-landing-blue hover:text-pri-landing" />
           ),
           link: s.link,
         };
       case "instagram":
         return {
           icon: (
-            <InstagramFilled className="text-xl text-[#888FC0] hover:text-pri-landing" />
+            <InstagramFilled className="text-xl text-pri-landing-blue hover:text-pri-landing" />
           ),
           link: s.link,
         };
       case "spotify":
         return {
           icon: (
-            <QqCircleFilled className="text-xl text-[#888FC0] hover:text-pri-landing" />
+            <QqCircleFilled className="text-xl text-pri-landing-blue hover:text-pri-landing" />
           ),
           link: s.link,
         };
       case "twitter":
         return {
           icon: (
-            <TwitterCircleFilled className="text-xl text-[#888FC0] hover:text-pri-landing" />
+            <TwitterCircleFilled className="text-xl text-pri-landing-blue hover:text-pri-landing" />
           ),
           link: s.link,
         };
       case "youtube":
         return {
           icon: (
-            <YoutubeFilled className="text-xl text-[#888FC0] hover:text-pri-landing" />
+            <YoutubeFilled className="text-xl text-pri-landing-blue hover:text-pri-landing" />
           ),
           link: s.link,
         };
       case "apple":
         return {
           icon: (
-            <AppleFilled className="text-xl text-[#888FC0] hover:text-pri-landing" />
+            <AppleFilled className="text-xl text-pri-landing-blue hover:text-pri-landing" />
           ),
           link: s.link,
         };
@@ -70,20 +70,6 @@ function LandingPage({ data }) {
   const bannerData = data?.banner;
   const media = data?.media;
   const storeData = data?.store;
-  const tourData = data?.tour;
-
-  const prevMusicSlider = () => {
-    musicSwiper.slidePrev();
-  };
-  const nextMusicSlider = () => {
-    musicSwiper.slideNext();
-  };
-  const prevVideoSlider = () => {
-    videoSwiper.slidePrev();
-  };
-  const nextVideoSlider = () => {
-    videoSwiper.slideNext();
-  };
 
   const handleOpenVideo = (url) => {
     setVideoModalOptions({
@@ -102,54 +88,61 @@ function LandingPage({ data }) {
   return (
     <div
       className={`text-[17px] ${
-        !data?.application_setting.background_color &&
+        !data?.application_setting?.background_color &&
         "bg-fixed bg-center bg-cover bg-no-repeat !bg-[url(/images/bg-shawn.png)]"
       }`}
       style={{
-        backgroundColor: data?.application_setting.background_color,
+        backgroundColor: data?.application_setting?.background_color,
       }}
     >
       <header
-        className="z-10 h-[76px] fixed inset-0 px-8 flex items-center shadow-[0_3px_5px_0_rgba(0,0,0,0.1)]"
+        className="z-10 h-[76px] fixed inset-0 shadow-[0_3px_5px_0_rgba(0,0,0,0.1)]"
         style={{
           backgroundColor: data?.header?.color || "#000",
         }}
       >
-        <div className="w-2/5 flex items-center gap-6">
-          {data?.header?.page?.map((p, index) => (
-            <a
-              key={index}
-              href={p.slug}
-              // target={p.title === "Tour" && "_blank"}
-              className="uppercase text-[#888fc0] hover:text-pri-landing"
-            >
-              {p.title}
-            </a>
-          ))}
-        </div>
-        <a href="/" className="w-1/5 flex justify-center">
-          <img
-            src={data?.header?.image || "/images/logo.png"}
-            className="w-[180px]"
-          />
-        </a>
-        <div className="w-2/5 flex items-center justify-end gap-4">
-          {socialsData?.map((s, index) => (
-            <a key={index} href={s.link}>
-              {s.icon}
-            </a>
-          ))}
+        <div className="h-full flex items-center px-8 2xl:w-[1440px] 2xl:mx-auto 2xl:px-0">
+          <div className="w-2/5 flex items-center gap-6">
+            {data?.header?.page?.map((p, index) => (
+              <a
+                key={index}
+                href={p.slug}
+                className="uppercase text-pri-landing-blue hover:text-pri-landing"
+              >
+                {p.title}
+              </a>
+            ))}
+          </div>
+          <a href="/" className="w-1/5 flex justify-center">
+            <img
+              src={data?.header?.image || "/images/logo.png"}
+              className="w-[180px]"
+            />
+          </a>
+          <div className="w-2/5 flex items-center justify-end gap-4">
+            {socialsData?.map((s, index) => (
+              <a key={index} href={s.link}>
+                {s.icon}
+              </a>
+            ))}
+          </div>
         </div>
       </header>
 
       <div className="m-8 mt-[76px] min-h-screen">
         {/* Banner */}
-        {bannerData.is_show && (
+        {bannerData?.is_show && (
           <Swiper itemRef="" loop={true} slidesPerView={1} className="!-mx-8">
             {bannerData?.list?.map((b, index) => (
               <SwiperSlide key={index}>
-                <a href={b.link}>
-                  <img src={b.image} className="w-full h-full object-contain" />
+                <a
+                  href={b.link}
+                  className="relative block w-full h-[calc(100vh-76px)]"
+                >
+                  <img
+                    src={b.image}
+                    className="absolute top-0 left-0 w-full h-full object-cover"
+                  />
                 </a>
               </SwiperSlide>
             ))}
@@ -157,14 +150,14 @@ function LandingPage({ data }) {
         )}
 
         {/* Music */}
-        {media.is_show && (
-          <div id="music" className="mt-[100px]">
+        {media?.is_show && (
+          <div id="music" className="mt-[100px] 2xl:w-[1440px] 2xl:mx-auto">
             <h1 className="pl-20 pr-24 text-end text-8xl font-bold text-pri-landing">
               MUSIC
             </h1>
             <div className="relative mt-2 px-20">
               <button
-                onClick={prevMusicSlider}
+                onClick={() => musicSwiper.slidePrev()}
                 className="absolute left-0 top-1/2 w-16 -translate-y-1/2"
               >
                 <div className="float-left">
@@ -173,7 +166,7 @@ function LandingPage({ data }) {
                 </div>
               </button>
               <button
-                onClick={nextMusicSlider}
+                onClick={() => musicSwiper.slideNext()}
                 className="absolute right-0 top-1/2 w-16 -translate-y-1/2"
               >
                 <div className="float-right">
@@ -201,7 +194,17 @@ function LandingPage({ data }) {
                           <h1 className="mt-8 text-7xl uppercase font-bold">
                             {m.heading}
                           </h1>
-                          <button className="mt-5 py-[10px] px-6 rounded-3xl bg-pri-landing text-black font-bold uppercase hover:bg-[#888fc0] transition-colors duration-3000">
+                          <button
+                            className={`mt-5 py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${
+                              !data?.application_setting?.button_color &&
+                              "bg-[#d18559] hover:bg-[#888fc0]"
+                            }`}
+                            style={{
+                              backgroundColor:
+                                data?.application_setting?.button_color &&
+                                data?.application_setting?.button_color,
+                            }}
+                          >
                             {m.button}
                           </button>
                         </div>
@@ -215,14 +218,14 @@ function LandingPage({ data }) {
         )}
 
         {/* Video */}
-        {media.is_show && (
-          <div id="video" className="mt-[100px]">
+        {media?.is_show && (
+          <div id="video" className="mt-[100px] 2xl:w-[1440px] 2xl:mx-auto">
             <h1 className="pl-24 pr-20 text-8xl font-bold text-pri-landing">
               VIDEO
             </h1>
             <div className="relative mt-2 px-20">
               <button
-                onClick={prevVideoSlider}
+                onClick={() => videoSwiper.slidePrev()}
                 className="absolute left-0 top-1/2 w-16 -translate-y-1/2"
               >
                 <div className="relative float-left">
@@ -231,7 +234,7 @@ function LandingPage({ data }) {
                 </div>
               </button>
               <button
-                onClick={nextVideoSlider}
+                onClick={() => videoSwiper.slideNext()}
                 className="absolute right-0 top-1/2 w-16 -translate-y-1/2"
               >
                 <div className="relative float-right">
@@ -253,7 +256,7 @@ function LandingPage({ data }) {
                           onClick={() => handleOpenVideo(v.link)}
                           className=""
                         >
-                          <CaretLeftFilled className="text-9xl text-pri-landing hover:text-[#888fc0]" />
+                          <CaretLeftFilled className="text-9xl text-pri-landing hover:text-pri-landing-blue" />
                         </button>
                         <h1 className="text-5xl leading-[60px] text-center text-pri-landing font-bold">
                           {v.heading}
@@ -269,7 +272,7 @@ function LandingPage({ data }) {
 
         {/* Store */}
         {storeData?.is_show && (
-          <div id="store" className="mt-[100px]">
+          <div id="store" className="mt-[100px] 2xl:w-[1440px] 2xl:mx-auto">
             <h1 className="pl-24 pr-20 text-8xl font-bold text-pri-landing">
               STORE
             </h1>
@@ -285,35 +288,89 @@ function LandingPage({ data }) {
                 </div>
               ))}
             </div>
+            <div className="text-center">
+              <button className="mt-24 px-[30px] py-[10px] text-lg bg-pri-landing hover:text-white font-bold">
+                SHOW MORE STORE
+              </button>
+            </div>
           </div>
         )}
 
         {/* Tour */}
-        {tourData?.is_show && (
-          <div id="tour" className="mt-[160px]">
-            <h1 className="float-right pl-20  pr-24 text-8xl font-bold text-pri-landing">
+        {data?.tours?.is_show && (
+          <div id="tour" className="2xl:w-[1440px] 2xl:mx-auto">
+            <h1 className="mt-40 pl-20 pr-24 text-8xl font-bold text-end text-pri-landing">
               TOUR
             </h1>
-            <div className="mt-2 w-full flex justify-center items-center">
-              <div className="w-[40%] text-center">
-                <h2 className="mt-10 uppercase text-lg text-white text-center">
-                  SORRY, THERE ARE NO SHOWS CURRENTLY AVAILABLE. TO BE NOTIFIED
-                  OF NEW TOUR DATES WHEN THEY ARE ANNOUNCED, CLICK THE RSVP LINK
-                  BELOW.
+            <div className="w-[76%] mx-auto">
+              {data?.tours?.list?.map(
+                (t, index) =>
+                  t.is_show && (
+                    <div
+                      key={index}
+                      onClick={() => router.push(t.link)}
+                      className="flex py-4 cursor-pointer hover:bg-[rgba(0,0,0,0.05)] border-b border-b-pri-tour"
+                    >
+                      <div className="text-white text-lg font-bold">
+                        <div className="">{t.info?.date}</div>
+                        <div className="flex">
+                          <h2 className="w-[60%] leading-5">{t.info?.title}</h2>
+                          <h2 className="w-[40%]">{t.info?.artist}</h2>
+                        </div>
+                        <span className="opacity-70 text-sm">
+                          {t.info?.type}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {t.isVip ? (
+                          <a
+                            href={t.button?.vipLink}
+                            target="_blank"
+                            onClick={stop}
+                            className="w-[160px] h-12 flex items-center justify-center text-lg font-bold text-[#2f3237] hover:text-white bg-pri-landing cursor-pointer"
+                          >
+                            VIP
+                          </a>
+                        ) : (
+                          <div className="w-[160px]"></div>
+                        )}
+                        <a
+                          href={t.button?.vipLink}
+                          target="_blank"
+                          onClick={stop}
+                          className="w-[160px] h-12 flex items-center justify-center text-lg font-bold text-black hover:text-[#85c8d5] bg-white border-4 border-pri-landing cursor-pointer"
+                        >
+                          TICKETS
+                        </a>
+                      </div>
+                    </div>
+                  )
+              )}
+              <div className="mt-16 flex flex-col items-center">
+                <h2 className="text-white text-lg font-bold">
+                  Get notified when new events are announced in your area
                 </h2>
-                <a href="#" className="my-8 block font-bold text-pri-landing">
-                  RSVP
+                <a
+                  href="#"
+                  className="mt-2 block px-5 py-3 font-bold text-sm uppercase border-2 border-black rounded bg-white w-fit hover:text-white hover:bg-black hover:border-white"
+                >
+                  FOLLOW JOHN MAYER
                 </a>
-                <button className="py-[10px] px-6 rounded-3xl bg-[#d18559] text-black font-bold uppercase hover:bg-[#888fc0] transition-colors duration-3000">
-                  VIEW ALL DATES
+              </div>
+              <div className="text-center">
+                <button className="mt-24 px-[30px] py-[10px] text-lg bg-pri-landing hover:text-white font-bold">
+                  SHOW ALL DATES
                 </button>
               </div>
             </div>
           </div>
         )}
 
-        {/* Contact */}
-        <div className="mt-[180px] mb-[200px] flex justify-between">
+        {/* Subscriber */}
+        <div
+          id="subscribe"
+          className="mt-[180px] mb-[200px] flex justify-between 2xl:w-[1440px] 2xl:mx-auto"
+        >
           <form className="w-[48%] flex flex-col text-pri-landing">
             <label htmlFor="email" className="text-sm font-bold">
               * EMAIL
@@ -339,7 +396,15 @@ function LandingPage({ data }) {
             />
             <button
               type="submit"
-              className="mt-10 w-[220px] py-[10px] rounded-3xl bg-[#d18559] text-black font-bold uppercase hover:bg-[#888fc0] transition-colors duration-3000"
+              className={`mt-10 w-[220px] py-[10px] rounded-3xl text-black font-bold uppercase hover:bg-[#888fc0] transition-colors duration-3000 ${
+                !data?.application_setting?.button_color &&
+                "bg-[#d18559] hover:bg-[#888fc0]"
+              }`}
+              style={{
+                backgroundColor:
+                  data?.application_setting?.button_color &&
+                  data?.application_setting?.button_color,
+              }}
             >
               SUBMIT
             </button>
@@ -351,24 +416,26 @@ function LandingPage({ data }) {
       </div>
 
       <footer
-        className="h-[76px] px-8 flex items-center"
+        className="h-[76px]"
         style={{
           backgroundColor: data?.header?.color || "#000",
         }}
       >
-        <div className="flex-1 text-[#888FCC]">
-          <span>© 2023 Island</span>
-          <span className="ml-6">
-            Privacy Policy Terms & Conditions Do Not Sell My Personal
-            Information Cookie Choices
-          </span>
-        </div>
-        <div className="w-2/5 flex items-center justify-end gap-4">
-          {socialsData?.map((s, index) => (
-            <a key={index} href={s.link}>
-              {s.icon}
-            </a>
-          ))}
+        <div className="h-full flex items-center px-8 2xl:w-[1440px] 2xl:mx-auto 2xl:px-0">
+          <div className="flex-1 text-pri-landing-blue">
+            <span>© 2023 Island</span>
+            <span className="ml-6">
+              Privacy Policy Terms & Conditions Do Not Sell My Personal
+              Information Cookie Choices
+            </span>
+          </div>
+          <div className="w-2/5 flex items-center justify-end gap-4">
+            {socialsData?.map((s, index) => (
+              <a key={index} href={s.link}>
+                {s.icon}
+              </a>
+            ))}
+          </div>
         </div>
       </footer>
 
