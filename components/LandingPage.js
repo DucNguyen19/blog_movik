@@ -9,11 +9,13 @@ import {
   CaretRightFilled,
 } from "@ant-design/icons";
 import { useState } from "react";
+import { useRouter } from "next/router";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import VideoModal from "./VideoModal";
 
 function LandingPage({ data }) {
+  const router = useRouter();
   const [musicSwiper, setMusicSwiper] = useState({});
   const [videoSwiper, setVideoSwiper] = useState({});
   const [videoModalOptions, setVideoModalOptions] = useState({
@@ -70,6 +72,10 @@ function LandingPage({ data }) {
   const bannerData = data?.banner;
   const media = data?.media;
   const storeData = data?.store;
+
+  const stopPropagation = (e) => {
+    e.stopPropagation();
+  };
 
   const handleOpenVideo = (url) => {
     setVideoModalOptions({
@@ -326,7 +332,7 @@ function LandingPage({ data }) {
                           <a
                             href={t.button?.vipLink}
                             target="_blank"
-                            onClick={stop}
+                            onClick={stopPropagation}
                             className="w-[160px] h-12 flex items-center justify-center text-lg font-bold text-[#2f3237] hover:text-white bg-pri-landing cursor-pointer"
                           >
                             VIP
@@ -337,7 +343,7 @@ function LandingPage({ data }) {
                         <a
                           href={t.button?.vipLink}
                           target="_blank"
-                          onClick={stop}
+                          onClick={stopPropagation}
                           className="w-[160px] h-12 flex items-center justify-center text-lg font-bold text-black hover:text-[#85c8d5] bg-white border-4 border-pri-landing cursor-pointer"
                         >
                           TICKETS
