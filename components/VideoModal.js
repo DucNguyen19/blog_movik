@@ -1,14 +1,13 @@
-import { memo, useCallback } from "react";
 import { CloseOutlined } from "@ant-design/icons";
 
-const VideoModal = memo(({ show, videoUrl, onClose }) => {
-  const stopClose = useCallback((e) => {
+function VideoModal({ show, videoUrl, onClose }) {
+  const stopClose = (e) => {
     e.stopPropagation();
-  }, []);
+  };
 
-  const handleClose = useCallback(() => {
+  const handleClose = () => {
     onClose();
-  }, [onClose]);
+  };
 
   return (
     <>
@@ -37,6 +36,6 @@ const VideoModal = memo(({ show, videoUrl, onClose }) => {
       )}
     </>
   );
-});
+}
 
 export default VideoModal;
