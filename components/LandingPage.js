@@ -22,7 +22,7 @@ const textFont = Noto_Sans({
   subsets: ["latin"],
 });
 
-function LandingPage({ data }) {
+function LandingPage({ data, checkEdit }) {
   const router = useRouter();
   const [musicSwiper, setMusicSwiper] = useState({});
   const [videoSwiper, setVideoSwiper] = useState({});
@@ -153,7 +153,9 @@ function LandingPage({ data }) {
       }}
     >
       <header
-        className="hidden lg:block z-10 h-[76px] fixed inset-0 shadow-[0_3px_5px_0_rgba(0,0,0,0.1)]"
+        className={`${
+          !checkEdit ? "fixed" : ""
+        } hidden lg:block z-10 h-[76px] fixed inset-0 shadow-[0_3px_5px_0_rgba(0,0,0,0.1)]`}
         style={{
           backgroundColor: data?.header?.color || "#000",
         }}
@@ -171,10 +173,11 @@ function LandingPage({ data }) {
             ))}
           </div>
           <a href="/" className="w-1/5 flex justify-center">
-            <img
-              src={headerData?.image || "/images/logo.png"}
+            {/* <img
+              src={data?.header?.image || "/images/logo.png"}
               className="w-[180px]"
-            />
+            /> */}
+            <p className="font-semibold text-xl text-white">Movick Art</p>
           </a>
           <div className="w-2/5 flex items-center justify-end gap-4">
             {socialsData?.map((s, index) => (
@@ -211,7 +214,11 @@ function LandingPage({ data }) {
         <div></div>
       </header>
 
-      <div className="mt-[60px] m-5 lg:m-8  lg:mt-[76px] min-h-screen">
+      <div
+        className={`${
+          !checkEdit ? "mt-[60px] m-5 lg:m-8  lg:mt-[76px]" : "mx-8"
+        } min-h-screen`}
+      >
         {/* Banner */}
         {bannerData?.is_show && (
           <Swiper
@@ -238,7 +245,12 @@ function LandingPage({ data }) {
 
         {/* Music */}
         {media?.is_show && (
-          <div id="music" className="lg:mt-[100px] 2xl:w-[1440px] 2xl:mx-auto">
+          <div
+            id="music"
+            className={`lg:mt-[100px] ${
+              !checkEdit ? "2xl:w-[1440px] 2xl:mx-auto" : ""
+            }`}
+          >
             <h1 className="my-10 lg:mt-0 lg:mb-16 lg:pl-20 lg:pr-24 text-center lg:text-end text-5xl lg:text-[110px] font-[900] text-pri-landing">
               MUSIC
             </h1>
@@ -326,7 +338,9 @@ function LandingPage({ data }) {
         {media?.is_show && (
           <div
             id="video"
-            className="mt-48 lg:mt-[100px] 2xl:w-[1440px] 2xl:mx-auto"
+            className={`mt-48 lg:mt-[100px] ${
+              !checkEdit ? "2xl:w-[1440px] 2xl:mx-auto" : ""
+            }`}
           >
             <h1 className="my-10 lg:mb-16 lg:pl-24 lg:pr-20 text-center lg:text-start text-5xl lg:text-[110px] font-[900] text-pri-landing">
               VIDEOS
@@ -382,7 +396,9 @@ function LandingPage({ data }) {
         {storeData?.is_show && (
           <div
             id="store"
-            className="mt-24 lg:mt-[100px] 2xl:w-[1440px] 2xl:mx-auto"
+            className={`"mt-24 lg:mt-[100px] ${
+              !checkEdit ? "2xl:w-[1440px] 2xl:mx-auto" : ""
+            }`}
           >
             <h1 className="mb-20 lg:mb-16 lg:pl-24 lg:pr-20 text-center lg:text-start text-5xl lg:text-[110px] font-[900] text-pri-landing">
               STORE
@@ -422,11 +438,17 @@ function LandingPage({ data }) {
 
         {/* Tour */}
         {tourData?.is_show && (
-          <div id="tour" className="mt-40 2xl:w-[1440px] 2xl:mx-auto">
+          <div
+            id="tour"
+            className={`mt-[40px] ${
+              !checkEdit ? "2xl:w-[1440px] 2xl:mx-auto" : ""
+            }`}
+          >
+            {" "}
             <h1 className="mb-12 lg:mb-16 lg:pl-20 lg:pr-24 text-center lg:text-end text-5xl lg:text-[110px] font-[900] text-pri-landing">
               TOUR
             </h1>
-            <div className="lg:w-[76%] mx-auto">
+            <div className={`mx-auto ${!checkEdit ? "w-[76%] " : "w-[86%] "}`}>
               {tourData?.list?.map(
                 (t, index) =>
                   t.is_show && (
@@ -510,7 +532,9 @@ function LandingPage({ data }) {
         {/* Subscriber */}
         <div
           id="subscribe"
-          className="mt-[140px] lg:mt-[180px] mb-[100px] lg:mb-[200px] flex flex-col lg:flex-row justify-between 2xl:w-[1440px] 2xl:mx-auto"
+          className={`mt-[140px] lg:mt-[180px] mb-[100px] lg:mb-[200px] flex flex-col lg:flex-row justify-between ${
+            !checkEdit ? "2xl:w-[1440px] 2xl:mx-auto" : ""
+          }`}
         >
           <form className="order-2 lg:order-1 lg:w-[45%] flex flex-col text-pri-landing">
             <label

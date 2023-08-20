@@ -17,7 +17,7 @@ body {
 }
 body.video-modal-open {
 	overflow: hidden;
-  }
+}
 
 .anticon {
 	vertical-align: middle !important;
@@ -30,6 +30,33 @@ body.video-modal-open {
 	border: none !important;
 }
 
-a, button, input {
+a,
+button,
+input {
 	outline: none;
+}
+
+.customIcon {
+	margin-right: 17px;
+	width: 16px;
+	height: 16px;
+	line-height: 1;
+	transition: none;
+	z-index: 999;
+}
+
+.page_svg__a {
+	fill: none;
+	stroke: black;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-width: 1.5px;
+}
+
+.customBg {
+	background: linear-gradient(90deg, #ae5aef, #e954b3);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	transition: filter 0.1s linear;
+	filter: brightness(1);
 }
