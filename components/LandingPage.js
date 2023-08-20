@@ -21,7 +21,7 @@ const textFont = Noto_Sans({
   subsets: ["latin"],
 });
 
-function LandingPage({ data }) {
+function LandingPage({ data, checkEdit }) {
   const router = useRouter();
   const [musicSwiper, setMusicSwiper] = useState({});
   const [videoSwiper, setVideoSwiper] = useState({});
@@ -129,7 +129,7 @@ function LandingPage({ data }) {
       }}
     >
       <header
-        className="z-10 h-[76px] fixed inset-0 shadow-[0_3px_5px_0_rgba(0,0,0,0.1)]"
+        className={`${!checkEdit ? "fixed" : ""} z-10 h-[76px] inset-0 shadow-[0_3px_5px_0_rgba(0,0,0,0.1)]`}
         style={{
           backgroundColor: data?.header?.color || "#000",
         }}
@@ -147,10 +147,11 @@ function LandingPage({ data }) {
             ))}
           </div>
           <a href="/" className="w-1/5 flex justify-center">
-            <img
+            {/* <img
               src={data?.header?.image || "/images/logo.png"}
               className="w-[180px]"
-            />
+            /> */}
+            <p className="font-semibold text-xl text-white">Movick Art</p>
           </a>
           <div className="w-2/5 flex items-center justify-end gap-4">
             {socialsData?.map((s, index) => (
@@ -162,7 +163,7 @@ function LandingPage({ data }) {
         </div>
       </header>
 
-      <div className="m-8 mt-[76px] min-h-screen">
+      <div className={`${!checkEdit ? "m-8 mt-[76px]" : "mx-8"} min-h-screen`}>
         {/* Banner */}
         {bannerData?.is_show && (
           <Swiper itemRef="" loop={true} slidesPerView={1} className="!-mx-8">
@@ -184,7 +185,7 @@ function LandingPage({ data }) {
 
         {/* Music */}
         {media?.is_show && (
-          <div id="music" className="mt-[100px] 2xl:w-[1440px] 2xl:mx-auto">
+          <div id="music" className={`mt-[100px] ${!checkEdit ? "2xl:w-[1440px] 2xl:mx-auto" : ""}`}>
             <h1 className="pl-20 pr-24 text-end text-[110px] font-[900] text-pri-landing">
               MUSIC
             </h1>
@@ -251,7 +252,7 @@ function LandingPage({ data }) {
 
         {/* Video */}
         {media?.is_show && (
-          <div id="video" className="mt-[100px] 2xl:w-[1440px] 2xl:mx-auto">
+          <div id="video" className={`mt-[100px] ${!checkEdit ? "2xl:w-[1440px] 2xl:mx-auto" : ""}`}>
             <h1 className="pl-24 pr-20 text-[110px] font-[900] text-pri-landing">
               VIDEOS
             </h1>
@@ -304,7 +305,7 @@ function LandingPage({ data }) {
 
         {/* Store */}
         {storeData?.is_show && (
-          <div id="store" className="mt-[100px] 2xl:w-[1440px] 2xl:mx-auto">
+          <div id="store" className={`mt-[100px] ${!checkEdit ? "2xl:w-[1440px] 2xl:mx-auto" : ""}`}>
             <h1 className="pl-24 pr-20 text-[110px] font-[900] text-pri-landing">
               STORE
             </h1>
@@ -342,11 +343,11 @@ function LandingPage({ data }) {
 
         {/* Tour */}
         {tourData?.is_show && (
-          <div id="tour" className="mt-40 2xl:w-[1440px] 2xl:mx-auto">
+          <div id="tour" className={`mt-[40px] ${!checkEdit ? "2xl:w-[1440px] 2xl:mx-auto" : ""}`}>
             <h1 className="pl-20 pr-24 text-end text-[110px] font-[900] text-pri-landing">
               TOUR
             </h1>
-            <div className="w-[76%] mx-auto">
+            <div className={`mx-auto ${!checkEdit ? "w-[76%] " : "w-[86%] "}`}>
               {tourData?.list?.map(
                 (t, index) =>
                   t.is_show && (
@@ -425,7 +426,8 @@ function LandingPage({ data }) {
         {/* Subscriber */}
         <div
           id="subscribe"
-          className="mt-[180px] mb-[200px] flex justify-between 2xl:w-[1440px] 2xl:mx-auto"
+          // className="mt-[180px] mb-[200px] flex justify-between 2xl:w-[1440px] 2xl:mx-auto"
+          className={`mt-[180px] mb-[200px] flex justify-between ${!checkEdit ? "2xl:w-[1440px] 2xl:mx-auto" : ""}`}
         >
           <form className="w-[45%] flex flex-col text-pri-landing">
             <label
