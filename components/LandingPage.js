@@ -7,6 +7,7 @@ import {
   AppleFilled,
   CaretLeftFilled,
   CaretRightFilled,
+  MenuOutlined,
 } from "@ant-design/icons";
 import { Noto_Sans } from "@next/font/google";
 import { useCallback, useState } from "react";
@@ -32,7 +33,8 @@ function LandingPage({ data }) {
     url: "",
   });
 
-  const socialsData = data?.header?.social?.map((s) => {
+  const headerData = data?.header;
+  const socialsData = headerData?.social?.map((s) => {
     switch (s?.image) {
       case "facebook":
         return {
@@ -93,7 +95,28 @@ function LandingPage({ data }) {
       return newTours;
     } else return data.tours;
   }, [isShowAllTour])();
-  const footerData = [];
+  const footerData = data?.footer || {
+    is_show: true,
+    copy_right_link: "/",
+    list: [
+      {
+        title: "Privacy Policy",
+        link: "#",
+      },
+      {
+        title: "Terms & Conditions",
+        link: "#",
+      },
+      {
+        title: "Do Not Sell My Personal Information",
+        link: "#",
+      },
+      {
+        title: "Cookie Choices",
+        link: "#",
+      },
+    ],
+  };
 
   const handleOpenVideo = (url) => {
     document.body.classList.add("video-modal-open");
@@ -121,22 +144,23 @@ function LandingPage({ data }) {
 
   return (
     <div
-      className={`${textFont.className} ${!data?.application_setting?.background_color &&
+      className={`${textFont.className} overflow-hidden ${
+        !data?.application_setting?.background_color &&
         "bg-fixed bg-center bg-cover bg-no-repeat !bg-[url(/images/bg-shawn.png)]"
-        }`}
+      }`}
       style={{
         backgroundColor: data?.application_setting?.background_color,
       }}
     >
       <header
-        className="z-10 h-[76px] fixed inset-0 shadow-[0_3px_5px_0_rgba(0,0,0,0.1)]"
+        className="hidden lg:block z-10 h-[76px] fixed inset-0 shadow-[0_3px_5px_0_rgba(0,0,0,0.1)]"
         style={{
           backgroundColor: data?.header?.color || "#000",
         }}
       >
         <div className="h-full flex items-center px-8 ">
           <div className="w-2/5 flex items-center gap-6">
-            {data?.header?.page?.map((p, index) => (
+            {headerData?.page?.map((p, index) => (
               <a
                 key={index}
                 href={p.slug}
@@ -148,7 +172,7 @@ function LandingPage({ data }) {
           </div>
           <a href="/" className="w-1/5 flex justify-center">
             <img
-              src={data?.header?.image || "/images/logo.png"}
+              src={headerData?.image || "/images/logo.png"}
               className="w-[180px]"
             />
           </a>
@@ -162,19 +186,49 @@ function LandingPage({ data }) {
         </div>
       </header>
 
-      <div className="m-8 mt-[76px] min-h-screen">
+      {/* Header mobile, tablet */}
+      <header
+        className="lg:hidden z-10 h-[60px] fixed inset-0 flex items-center justify-center border-b border-b-[rgba(200,200,200,.1)]"
+        style={{
+          backgroundColor: data?.header?.color || "#000",
+        }}
+      >
+        <a href="/" className="">
+          <img
+            src={headerData?.image || "/images/logo.png"}
+            className="w-[186px] h-[68px]"
+          />
+        </a>
+        <button className="absolute top-1/2 right-5 -translate-y-1/2">
+          <MenuOutlined
+            style={{
+              fontSize: 30,
+              color: data?.application_setting?.button_color || "#FFC0A5",
+            }}
+          />
+        </button>
+
+        <div></div>
+      </header>
+
+      <div className="mt-[60px] m-5 lg:m-8  lg:mt-[76px] min-h-screen">
         {/* Banner */}
         {bannerData?.is_show && (
-          <Swiper itemRef="" loop={true} slidesPerView={1} className="!-mx-8">
+          <Swiper
+            itemRef=""
+            loop={true}
+            slidesPerView={1}
+            className="!-mx-5 lg:!-mx-8"
+          >
             {bannerData?.list?.map((b, index) => (
               <SwiperSlide key={index}>
                 <a
                   href={b.link}
-                  className="relative block w-full h-[calc(100vh-76px)]"
+                  className="relative block w-full h-[calc(100vh-60px)] lg:h-[calc(100vh-76px)]"
                 >
                   <img
                     src={b.image}
-                    className="absolute top-0 left-0 w-full h-full object-cover"
+                    className="absolute top-0 left-0 w-full h-full object-full lg:object-cover"
                   />
                 </a>
               </SwiperSlide>
@@ -184,14 +238,14 @@ function LandingPage({ data }) {
 
         {/* Music */}
         {media?.is_show && (
-          <div id="music" className="mt-[100px] 2xl:w-[1440px] 2xl:mx-auto">
-            <h1 className="pl-20 pr-24 text-end text-[110px] font-[900] text-pri-landing">
+          <div id="music" className="lg:mt-[100px] 2xl:w-[1440px] 2xl:mx-auto">
+            <h1 className="my-10 lg:mt-0 lg:mb-16 lg:pl-20 lg:pr-24 text-center lg:text-end text-5xl lg:text-[110px] font-[900] text-pri-landing">
               MUSIC
             </h1>
-            <div className="relative -mt-4 px-16">
+            <div className="relative lg:-mt-4 lg:px-16">
               <button
                 onClick={() => musicSwiper.slidePrev()}
-                className="absolute left-0 top-1/2 w-16 -translate-y-1/2"
+                className="hidden lg:block absolute left-0 top-1/2 w-16 -translate-y-1/2"
               >
                 <div className="relative float-left">
                   <CaretLeftFilled className="-ml-[6px] text-2xl text-pri-landing" />
@@ -200,7 +254,7 @@ function LandingPage({ data }) {
               </button>
               <button
                 onClick={() => musicSwiper.slideNext()}
-                className="absolute right-0 top-1/2 w-16 -translate-y-1/2"
+                className="hidden lg:block absolute right-0 top-1/2 w-16 -translate-y-1/2"
               >
                 <div className="relative float-right">
                   <CaretRightFilled className="-mr-[6px] text-2xl text-pri-landing" />
@@ -214,23 +268,42 @@ function LandingPage({ data }) {
               >
                 {media?.list?.music?.map((m, index) => (
                   <SwiperSlide key={index}>
-                    <div className="flex">
-                      <div className="w-1/2">
-                        <img src={m.image} className="w-full h-full" />
+                    <div className="flex flex-col gap-y-10 lg:gap-y-0 lg:flex-row">
+                      <div className="relative w-full px-[12px] lg:px-0 lg:w-1/2 h-full">
+                        <img src={m.image} className="w-full h-auto" />
+                        <button
+                          onClick={() => musicSwiper.slidePrev()}
+                          className="lg:hidden absolute left-0 top-1/2 w-16 -translate-y-1/2"
+                        >
+                          <div className="relative float-left">
+                            <CaretLeftFilled className="-ml-[6px] text-2xl text-pri-landing" />
+                            <div className="absolute top-1/2 left-[11px] h-0.5 w-10 bg-pri-landing"></div>
+                          </div>
+                        </button>
+                        <button
+                          onClick={() => musicSwiper.slideNext()}
+                          className="lg:hidden absolute right-0 top-1/2 w-16 -translate-y-1/2"
+                        >
+                          <div className="relative float-right">
+                            <CaretRightFilled className="-mr-[6px] text-2xl text-pri-landing" />
+                            <div className="absolute top-1/2 right-[11px] h-0.5 w-10 bg-pri-landing"></div>
+                          </div>
+                        </button>
                       </div>
-                      <div className="w-1/2 flex items-center text-pri-landing">
-                        <div className="px-12">
-                          <h3 className="relative font-semibold text-xs uppercase tracking-[0.3rem]">
+                      <div className="w-full lg:w-1/2 px-[12px] lg:px-0 flex flex-col lg:flex-row items-center text-pri-landing">
+                        <div className="lg:px-12 text-center lg:text-start">
+                          <h3 className="relative text-center lg:text-start font-semibold text-xs uppercase tracking-[0.3rem]">
                             Latest relase
-                            <div className="absolute top-7 left-0 bg-pri-landing h-[1px] w-[50px]"></div>
+                            <div className="absolute top-7 left-1/2 -translate-x-1/2 lg:left-0 lg:translate-x-0 bg-pri-landing h-[1px] w-[50px]"></div>
                           </h3>
-                          <h1 className="mt-8 text-6xl font-[900] leading-[1.1em] uppercase font-">
+                          <h1 className="mt-12 lg:mt-8 text-[42px] text-center lg:text-start lg:text-6xl font-[900] leading-[1.1em] uppercase font-">
                             {m.heading}
                           </h1>
                           <button
-                            className={`mt-5 py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${!data?.application_setting?.button_color &&
+                            className={`mt-5 py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${
+                              !data?.application_setting?.button_color &&
                               "bg-[#d18559] hover:bg-[#888fc0] hover:text-white"
-                              }`}
+                            }`}
                             style={{
                               backgroundColor:
                                 data?.application_setting?.button_color &&
@@ -251,14 +324,17 @@ function LandingPage({ data }) {
 
         {/* Video */}
         {media?.is_show && (
-          <div id="video" className="mt-[100px] 2xl:w-[1440px] 2xl:mx-auto">
-            <h1 className="pl-24 pr-20 text-[110px] font-[900] text-pri-landing">
+          <div
+            id="video"
+            className="mt-48 lg:mt-[100px] 2xl:w-[1440px] 2xl:mx-auto"
+          >
+            <h1 className="my-10 lg:mb-16 lg:pl-24 lg:pr-20 text-center lg:text-start text-5xl lg:text-[110px] font-[900] text-pri-landing">
               VIDEOS
             </h1>
-            <div className="relative -mt-4 px-16">
+            <div className="relative lg:-mt-4 lg:px-16">
               <button
                 onClick={() => videoSwiper.slidePrev()}
-                className="absolute left-0 top-1/2 w-16 -translate-y-1/2"
+                className="z-50 absolute left-0 top-1/2 w-16 -translate-y-1/2"
               >
                 <div className="relative float-left">
                   <CaretLeftFilled className="-ml-[6px] text-2xl text-pri-landing" />
@@ -267,7 +343,7 @@ function LandingPage({ data }) {
               </button>
               <button
                 onClick={() => videoSwiper.slideNext()}
-                className="absolute right-0 top-1/2 w-16 -translate-y-1/2"
+                className="z-50 absolute right-0 top-1/2 w-16 -translate-y-1/2"
               >
                 <div className="relative float-right">
                   <CaretRightFilled className="-mr-[6px] text-2xl text-pri-landing" />
@@ -282,15 +358,15 @@ function LandingPage({ data }) {
                 {media?.list?.video?.map((v, index) => (
                   <SwiperSlide key={index}>
                     <div className="relative">
-                      <img src={v.image} className="w-full h-ful" />
-                      <div className="w-[70%] text-center absolute left-1/2 -translate-x-1/2 top-[30%]">
+                      <img src={v.image} className="w-full h-full" />
+                      <div className="w-[65%] lg:w-[70%] text-center absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 lg:top-[30%] lg:translate-y-0">
                         <button
                           onClick={() => handleOpenVideo(v.link)}
                           className="-my-2"
                         >
-                          <CaretRightFilled className="text-[120px] text-pri-landing hover:text-pri-landing-blue" />
+                          <CaretRightFilled className="text-5xl lg:text-[120px] text-pri-landing hover:text-pri-landing-blue" />
                         </button>
-                        <h1 className="text-4xl leading-[60px] text-center text-pri-landing font-[900]">
+                        <h1 className="text-2xl lg:text-4xl lg:leading-[60px] text-center text-pri-landing font-[900]">
                           {v.heading}
                         </h1>
                       </div>
@@ -304,17 +380,20 @@ function LandingPage({ data }) {
 
         {/* Store */}
         {storeData?.is_show && (
-          <div id="store" className="mt-[100px] 2xl:w-[1440px] 2xl:mx-auto">
-            <h1 className="pl-24 pr-20 text-[110px] font-[900] text-pri-landing">
+          <div
+            id="store"
+            className="mt-24 lg:mt-[100px] 2xl:w-[1440px] 2xl:mx-auto"
+          >
+            <h1 className="mb-20 lg:mb-16 lg:pl-24 lg:pr-20 text-center lg:text-start text-5xl lg:text-[110px] font-[900] text-pri-landing">
               STORE
             </h1>
             <div className="-mt-3 grid grid-flow-col-1 lg:grid-cols-3 gap-8">
               {storeData?.list?.slice(0, storeShowItem).map((s, index) => (
                 <div key={index} className="">
                   <a href={s.link}>
-                    <img src={s.image} className="" />
+                    <img src={s.image} className="w-full h-auto" />
                   </a>
-                  <h2 className="mt-4 tracking-wider text-lg text-pri-landing">
+                  <h2 className="mt-4 tracking-wider text-center md:text-start lg:text-lg text-pri-landing">
                     {s.heading}
                   </h2>
                 </div>
@@ -324,9 +403,10 @@ function LandingPage({ data }) {
               <div className="text-center">
                 <button
                   onClick={handleShowMore}
-                  className={`mt-20 min-w-[200px] py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${!data?.application_setting?.button_color &&
+                  className={`mt-20 min-w-[200px] py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${
+                    !data?.application_setting?.button_color &&
                     "bg-[#d18559] hover:bg-[#888fc0] hover:text-white"
-                    }`}
+                  }`}
                   style={{
                     backgroundColor:
                       data?.application_setting?.button_color &&
@@ -343,46 +423,50 @@ function LandingPage({ data }) {
         {/* Tour */}
         {tourData?.is_show && (
           <div id="tour" className="mt-40 2xl:w-[1440px] 2xl:mx-auto">
-            <h1 className="pl-20 pr-24 text-end text-[110px] font-[900] text-pri-landing">
+            <h1 className="mb-12 lg:mb-16 lg:pl-20 lg:pr-24 text-center lg:text-end text-5xl lg:text-[110px] font-[900] text-pri-landing">
               TOUR
             </h1>
-            <div className="w-[76%] mx-auto">
+            <div className="lg:w-[76%] mx-auto">
               {tourData?.list?.map(
                 (t, index) =>
                   t.is_show && (
                     <div
                       key={index}
                       onClick={() => router.push(t.link)}
-                      className="flex py-5 cursor-pointer hover:bg-[rgba(0,0,0,0.05)] border-b border-b-pri-tour"
+                      className="flex flex-col gap-y-4 md:flex-row py-5 cursor-pointer hover:bg-[rgba(0,0,0,0.5)] border-b border-b-pri-tour"
                     >
-                      <div className="w-[60%] text-white font-bold">
+                      <div className="md:w-[60%] text-center md:text-start text-white text-xs lg:text-base font-bold">
                         <div className="">{t.info?.date}</div>
-                        <div className="mt-1 flex gap-2">
-                          <h2 className="w-[65%] leading-5">{t.info?.title}</h2>
-                          <h2 className="w-[35%]">{t.info?.artist}</h2>
+                        <div className="mt-1 md:flex gap-2">
+                          <h2 className="md:w-[65%] leading-5">
+                            {t.info?.title}
+                          </h2>
+                          <h2 className="mt-1 md:mt-0 md:w-[35%]">
+                            {t.info?.artist}
+                          </h2>
                         </div>
                         <div className="mt-1 min-h-[12px] opacity-70 text-[0.7rem]">
                           {t.info?.type}
                         </div>
                       </div>
-                      <div className="w-[40%] flex justify-end items-center gap-2">
+                      <div className="md:w-[40%] flex md:flex-col lg:flex-row justify-center items-center md:items-end md:justify-center lg:items-center gap-2">
                         {t.isVip ? (
                           <a
                             href={t.button?.vipLink}
                             target="_blank"
                             onClick={stopPropagation}
-                            className="min-w-[160px] h-12 flex items-center justify-center font-bold text-[#2f3237] hover:text-white bg-pri-landing cursor-pointer"
+                            className="min-w-[120px] lg:min-w-[160px] h-10 lg:h-12 flex items-center justify-center text-sm lg:text-base font-bold text-[#2f3237] hover:text-white bg-pri-landing cursor-pointer"
                           >
                             VIP
                           </a>
                         ) : (
-                          <div className="min-w-[160px]"></div>
+                          <div className="lg:min-w-[160px]"></div>
                         )}
                         <a
                           href={t.button?.link}
                           target="_blank"
                           onClick={stopPropagation}
-                          className="min-w-[160px] h-12 flex items-center justify-center font-bold text-black hover:text-[#85c8d5] bg-white border-4 border-pri-landing cursor-pointer"
+                          className="min-w-[120px] lg:min-w-[160px] h-10 lg:h-12 flex items-center justify-center text-sm lg:text-base font-bold text-black hover:text-[#85c8d5] bg-white border-4 border-pri-landing cursor-pointer"
                         >
                           TICKETS
                         </a>
@@ -391,12 +475,12 @@ function LandingPage({ data }) {
                   )
               )}
               <div className="mt-16 flex flex-col items-center">
-                <h2 className="text-white text-lg font-bold">
+                <h2 className="text-white text-center lg:text-start lg:text-lg font-bold">
                   Get notified when new events are announced in your area
                 </h2>
                 <a
                   href="#"
-                  className="mt-2 block px-5 py-3 font-bold text-sm uppercase border-2 border-black rounded bg-white w-fit hover:text-white hover:bg-black hover:border-white"
+                  className="mt-2 block px-5 py-3 font-bold lg:text-sm uppercase border-2 border-black rounded bg-white w-fit hover:text-white hover:bg-black hover:border-white"
                 >
                   FOLLOW JOHN MAYER
                 </a>
@@ -405,9 +489,10 @@ function LandingPage({ data }) {
                 <div className="text-center">
                   <button
                     onClick={() => setIsShowAllTou(true)}
-                    className={`mt-20 min-w-[200px] py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${!data?.application_setting?.button_color &&
+                    className={`mt-20 min-w-[200px] py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${
+                      !data?.application_setting?.button_color &&
                       "bg-[#d18559] hover:bg-[#888fc0] hover:text-white"
-                      }`}
+                    }`}
                     style={{
                       backgroundColor:
                         data?.application_setting?.button_color &&
@@ -425,12 +510,12 @@ function LandingPage({ data }) {
         {/* Subscriber */}
         <div
           id="subscribe"
-          className="mt-[180px] mb-[200px] flex justify-between 2xl:w-[1440px] 2xl:mx-auto"
+          className="mt-[140px] lg:mt-[180px] mb-[100px] lg:mb-[200px] flex flex-col lg:flex-row justify-between 2xl:w-[1440px] 2xl:mx-auto"
         >
-          <form className="w-[45%] flex flex-col text-pri-landing">
+          <form className="order-2 lg:order-1 lg:w-[45%] flex flex-col text-pri-landing">
             <label
               htmlFor="email"
-              className="text-xs tracking-[0.2em] font-bold"
+              className="text-[10px] md:text-xs tracking-[0.2em] font-bold"
             >
               * EMAIL
             </label>
@@ -440,11 +525,11 @@ function LandingPage({ data }) {
               name="email"
               placeholder="enter email"
               required
-              className="p-[10px] uppercase pl-0 bg-transparent border-b-[2px] tracking-widest border-[#d18559] text-[#d18559]"
+              className="p-[10px] uppercase pl-0 bg-transparent border-b-[2px] placeholder:text-sm tracking-widest border-[#d18559] text-[#d18559]"
             />
             <label
               htmlFor="contact"
-              className="mt-8 text-xs tracking-[0.2em] font-bold"
+              className="mt-8 text-[10px] md:text-xs tracking-[0.2em] font-bold"
             >
               * CONTACT
             </label>
@@ -454,13 +539,14 @@ function LandingPage({ data }) {
               name="contact"
               placeholder="enter contact"
               required
-              className="p-[10px] uppercase pl-0 bg-transparent border-b-[2px] tracking-widest border-[#d18559] text-[#d18559]"
+              className="p-[10px] uppercase pl-0 bg-transparent border-b-[2px] placeholder:text-sm tracking-widest border-[#d18559] text-[#d18559]"
             />
             <button
               type="submit"
-              className={`mt-10 w-[220px] py-[10px] rounded-3xl text-black font-bold uppercase hover:bg-[#888fc0] transition-colors duration-3000 ${!data?.application_setting?.button_color &&
+              className={`mx-auto lg:mx-0 mt-10 w-[220px] py-[10px] rounded-3xl text-black font-bold uppercase hover:bg-[#888fc0] transition-colors duration-3000 ${
+                !data?.application_setting?.button_color &&
                 "bg-[#d18559] hover:bg-[#888fc0]"
-                }`}
+              }`}
               style={{
                 backgroundColor:
                   data?.application_setting?.button_color &&
@@ -470,35 +556,44 @@ function LandingPage({ data }) {
               SUBMIT
             </button>
           </form>
-          <div className="w-1/2 flex justify-end items-center text-[110px] font-[900] text-pri-landing">
+          <div className="order-1 mb-14 lg:mb-0 lg:w-1/2 flex justify-center lg:justify-end items-center text-[42px] lg:text-[110px] font-[900] text-pri-landing">
             Thank You
           </div>
         </div>
       </div>
 
-      <footer
-        className="h-[76px]"
-        style={{
-          backgroundColor: data?.header?.color || "#000",
-        }}
-      >
-        <div className="h-full flex items-center px-8 ">
-          <div className="flex-1 flex text-pri-landing-blue">
-            <a href="/">© 2023 Island</a>
-            <div className="ml-6">
-              Privacy Policy Terms & Conditions Do Not Sell My Personal
-              Information Cookie Choices
+      {footerData?.is_show && (
+        <footer
+          className="py-4 lg:py-0 lg:h-[76px]"
+          style={{
+            backgroundColor: data?.header?.color || "#000",
+          }}
+        >
+          <div className="h-full flex flex-col gap-y-5 lg:flex-row justify-end items-center px-8">
+            <div className="order-2 lg:order-1 flex-1 flex flex-col lg:flex-row items-center gap-1 lg:gap-2 text-pri-landing-blue">
+              <a href={footerData.copy_right_link} className="lg:mr-4">
+                © 2023 Island
+              </a>
+              {footerData?.list?.map((f, index) => (
+                <a
+                  key={index}
+                  href={f.link}
+                  className="text-sm lg:text-base text-center lg:text-start hover:text-pri-landing"
+                >
+                  {f.title}
+                </a>
+              ))}
+            </div>
+            <div className="order-1 w-fit flex items-center gap-4">
+              {socialsData?.map((s, index) => (
+                <a key={index} href={s.link}>
+                  {s.icon}
+                </a>
+              ))}
             </div>
           </div>
-          <div className="w-fit flex items-center gap-4">
-            {socialsData?.map((s, index) => (
-              <a key={index} href={s.link}>
-                {s.icon}
-              </a>
-            ))}
-          </div>
-        </div>
-      </footer>
+        </footer>
+      )}
 
       {/* Video modal */}
       <VideoModal
