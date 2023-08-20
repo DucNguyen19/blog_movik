@@ -8,16 +8,25 @@ import {
   CaretLeftFilled,
   CaretRightFilled,
 } from "@ant-design/icons";
-import { useState } from "react";
+import { Noto_Sans } from "@next/font/google";
+import { useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+
 import VideoModal from "./VideoModal";
+
+const textFont = Noto_Sans({
+  weight: ["300", "500", "600", "700", "900"],
+  subsets: ["latin"],
+});
 
 function LandingPage({ data }) {
   const router = useRouter();
   const [musicSwiper, setMusicSwiper] = useState({});
   const [videoSwiper, setVideoSwiper] = useState({});
+  const [storeShowItem, setStoreShowItem] = useState(3);
+  const [isShowAllTour, setIsShowAllTou] = useState(false);
   const [videoModalOptions, setVideoModalOptions] = useState({
     open: false,
     url: "",
@@ -72,12 +81,22 @@ function LandingPage({ data }) {
   const bannerData = data?.banner;
   const media = data?.media;
   const storeData = data?.store;
+  const tourData = useCallback(() => {
+    if (!Array.isArray(data?.tours?.list)) return;
 
-  const stopPropagation = (e) => {
-    e.stopPropagation();
-  };
+    if (isShowAllTour) return data.tours;
+    else if (data.tours.list.length > 5) {
+      const newTours = {
+        ...data.tours,
+        list: data.tours.list.slice(0, 5),
+      };
+      return newTours;
+    } else return data.tours;
+  }, [isShowAllTour])();
+  const footerData = [];
 
   const handleOpenVideo = (url) => {
+    document.body.classList.add("video-modal-open");
     setVideoModalOptions({
       open: true,
       // url: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
@@ -85,15 +104,24 @@ function LandingPage({ data }) {
     });
   };
   const handleCloseVideo = () => {
+    document.body.classList.remove("video-modal-open");
     setVideoModalOptions({
       open: false,
       url: "",
     });
   };
 
+  const stopPropagation = (e) => {
+    e.stopPropagation();
+  };
+
+  const handleShowMore = () => {
+    setStoreShowItem((prevNumItems) => prevNumItems + 3);
+  };
+
   return (
     <div
-      className={`text-[17px] ${
+      className={`${textFont.className} ${
         !data?.application_setting?.background_color &&
         "bg-fixed bg-center bg-cover bg-no-repeat !bg-[url(/images/bg-shawn.png)]"
       }`}
@@ -158,26 +186,26 @@ function LandingPage({ data }) {
         {/* Music */}
         {media?.is_show && (
           <div id="music" className="mt-[100px] 2xl:w-[1440px] 2xl:mx-auto">
-            <h1 className="pl-20 pr-24 text-end text-8xl font-bold text-pri-landing">
+            <h1 className="pl-20 pr-24 text-end text-[110px] font-[900] text-pri-landing">
               MUSIC
             </h1>
-            <div className="relative mt-2 px-20">
+            <div className="relative -mt-4 px-16">
               <button
                 onClick={() => musicSwiper.slidePrev()}
                 className="absolute left-0 top-1/2 w-16 -translate-y-1/2"
               >
-                <div className="float-left">
-                  <CaretLeftFilled className="text-2xl text-pri-landing" />
-                  <div className="absolute top-1/2 left-4 -translate-y-[20%] h-0.5 w-10 bg-pri-landing"></div>
+                <div className="relative float-left">
+                  <CaretLeftFilled className="-ml-[6px] text-2xl text-pri-landing" />
+                  <div className="absolute top-1/2 left-[11px] h-0.5 w-10 bg-pri-landing"></div>
                 </div>
               </button>
               <button
                 onClick={() => musicSwiper.slideNext()}
                 className="absolute right-0 top-1/2 w-16 -translate-y-1/2"
               >
-                <div className="float-right">
-                  <CaretRightFilled className="text-2xl text-pri-landing" />
-                  <div className="absolute top-1/2 right-4 -translate-y-[20%] h-0.5 w-10 bg-pri-landing"></div>
+                <div className="relative float-right">
+                  <CaretRightFilled className="-mr-[6px] text-2xl text-pri-landing" />
+                  <div className="absolute top-1/2 right-[11px] h-0.5 w-10 bg-pri-landing"></div>
                 </div>
               </button>
               <Swiper
@@ -193,17 +221,17 @@ function LandingPage({ data }) {
                       </div>
                       <div className="w-1/2 flex items-center text-pri-landing">
                         <div className="px-12">
-                          <h3 className="relative uppercase tracking-widest">
+                          <h3 className="relative font-semibold text-xs uppercase tracking-[0.3rem]">
                             Latest relase
-                            <div className="absolute top-8 left-0 bg-pri-landing h-[1px] w-[50px]"></div>
+                            <div className="absolute top-7 left-0 bg-pri-landing h-[1px] w-[50px]"></div>
                           </h3>
-                          <h1 className="mt-8 text-7xl uppercase font-bold">
+                          <h1 className="mt-8 text-6xl font-[900] leading-[1.1em] uppercase font-">
                             {m.heading}
                           </h1>
                           <button
                             className={`mt-5 py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${
                               !data?.application_setting?.button_color &&
-                              "bg-[#d18559] hover:bg-[#888fc0]"
+                              "bg-[#d18559] hover:bg-[#888fc0] hover:text-white"
                             }`}
                             style={{
                               backgroundColor:
@@ -226,17 +254,17 @@ function LandingPage({ data }) {
         {/* Video */}
         {media?.is_show && (
           <div id="video" className="mt-[100px] 2xl:w-[1440px] 2xl:mx-auto">
-            <h1 className="pl-24 pr-20 text-8xl font-bold text-pri-landing">
-              VIDEO
+            <h1 className="pl-24 pr-20 text-[110px] font-[900] text-pri-landing">
+              VIDEOS
             </h1>
-            <div className="relative mt-2 px-20">
+            <div className="relative -mt-4 px-16">
               <button
                 onClick={() => videoSwiper.slidePrev()}
                 className="absolute left-0 top-1/2 w-16 -translate-y-1/2"
               >
                 <div className="relative float-left">
-                  <CaretLeftFilled className="text-2xl text-pri-landing" />
-                  <div className="absolute top-1/2  left-4 h-0.5 w-10 bg-pri-landing"></div>
+                  <CaretLeftFilled className="-ml-[6px] text-2xl text-pri-landing" />
+                  <div className="absolute top-[51%] left-[11px] h-0.5 w-10 bg-pri-landing"></div>
                 </div>
               </button>
               <button
@@ -244,8 +272,8 @@ function LandingPage({ data }) {
                 className="absolute right-0 top-1/2 w-16 -translate-y-1/2"
               >
                 <div className="relative float-right">
-                  <CaretRightFilled className="text-2xl text-pri-landing" />
-                  <div className="absolute top-1/2  right-4 h-0.5 w-10 bg-pri-landing"></div>
+                  <CaretRightFilled className="-mr-[6px] text-2xl text-pri-landing" />
+                  <div className="absolute top-[51%] right-[11px] h-0.5 w-10 bg-pri-landing"></div>
                 </div>
               </button>
               <Swiper
@@ -257,14 +285,14 @@ function LandingPage({ data }) {
                   <SwiperSlide key={index}>
                     <div className="relative">
                       <img src={v.image} className="w-full h-ful" />
-                      <div className="w-[900px] text-center absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">
+                      <div className="w-[70%] text-center absolute left-1/2 -translate-x-1/2 top-[30%]">
                         <button
                           onClick={() => handleOpenVideo(v.link)}
-                          className=""
+                          className="-my-2"
                         >
-                          <CaretLeftFilled className="text-9xl text-pri-landing hover:text-pri-landing-blue" />
+                          <CaretRightFilled className="text-[120px] text-pri-landing hover:text-pri-landing-blue" />
                         </button>
-                        <h1 className="text-5xl leading-[60px] text-center text-pri-landing font-bold">
+                        <h1 className="text-4xl leading-[60px] text-center text-pri-landing font-[900]">
                           {v.heading}
                         </h1>
                       </div>
@@ -279,11 +307,11 @@ function LandingPage({ data }) {
         {/* Store */}
         {storeData?.is_show && (
           <div id="store" className="mt-[100px] 2xl:w-[1440px] 2xl:mx-auto">
-            <h1 className="pl-24 pr-20 text-8xl font-bold text-pri-landing">
+            <h1 className="pl-24 pr-20 text-[110px] font-[900] text-pri-landing">
               STORE
             </h1>
-            <div className="mt-2 grid grid-flow-col-1 lg:grid-cols-3 gap-8">
-              {storeData?.list?.map((s, index) => (
+            <div className="-mt-3 grid grid-flow-col-1 lg:grid-cols-3 gap-8">
+              {storeData?.list?.slice(0, storeShowItem).map((s, index) => (
                 <div key={index} className="">
                   <a href={s.link}>
                     <img src={s.image} className="" />
@@ -294,57 +322,70 @@ function LandingPage({ data }) {
                 </div>
               ))}
             </div>
-            <div className="text-center">
-              <button className="mt-24 px-[30px] py-[10px] text-lg bg-pri-landing hover:text-white font-bold">
-                SHOW MORE STORE
-              </button>
-            </div>
+            {storeShowItem < storeData?.list?.length && (
+              <div className="text-center">
+                <button
+                  onClick={handleShowMore}
+                  className={`mt-20 min-w-[200px] py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${
+                    !data?.application_setting?.button_color &&
+                    "bg-[#d18559] hover:bg-[#888fc0] hover:text-white"
+                  }`}
+                  style={{
+                    backgroundColor:
+                      data?.application_setting?.button_color &&
+                      data?.application_setting?.button_color,
+                  }}
+                >
+                  Show more
+                </button>
+              </div>
+            )}
           </div>
         )}
 
         {/* Tour */}
-        {data?.tours?.is_show && (
-          <div id="tour" className="2xl:w-[1440px] 2xl:mx-auto">
-            <h1 className="mt-40 pl-20 pr-24 text-8xl font-bold text-end text-pri-landing">
+        {tourData?.is_show && (
+          <div id="tour" className="mt-40 2xl:w-[1440px] 2xl:mx-auto">
+            <h1 className="pl-20 pr-24 text-end text-[110px] font-[900] text-pri-landing">
               TOUR
             </h1>
             <div className="w-[76%] mx-auto">
-              {data?.tours?.list?.map(
+              {tourData?.list?.map(
                 (t, index) =>
                   t.is_show && (
                     <div
                       key={index}
                       onClick={() => router.push(t.link)}
-                      className="flex py-4 cursor-pointer hover:bg-[rgba(0,0,0,0.05)] border-b border-b-pri-tour"
+                      className="flex py-5 cursor-pointer hover:bg-[rgba(0,0,0,0.05)] border-b border-b-pri-tour"
                     >
-                      <div className="text-white text-lg font-bold">
+                      <div className="w-[60%] text-white font-bold">
                         <div className="">{t.info?.date}</div>
-                        <div className="flex">
-                          <h2 className="w-[60%] leading-5">{t.info?.title}</h2>
-                          <h2 className="w-[40%]">{t.info?.artist}</h2>
+                        <div className="mt-1 flex gap-2">
+                          <h2 className="w-[65%] leading-5">{t.info?.title}</h2>
+                          <h2 className="w-[35%]">{t.info?.artist}</h2>
                         </div>
-                        <span className="opacity-70 text-sm">
+                        <div className="mt-1 min-h-[12px] opacity-70 text-[0.7rem]">
                           {t.info?.type}
-                        </span>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="w-[40%] flex justify-end items-center gap-2">
                         {t.isVip ? (
                           <a
                             href={t.button?.vipLink}
                             target="_blank"
                             onClick={stopPropagation}
-                            className="w-[160px] h-12 flex items-center justify-center text-lg font-bold text-[#2f3237] hover:text-white bg-pri-landing cursor-pointer"
+                            className="min-w-[160px] h-12 flex items-center justify-center font-bold text-[#2f3237] hover:text-white bg-pri-landing cursor-pointer"
                           >
                             VIP
                           </a>
                         ) : (
-                          <div className="w-[160px]"></div>
+                          <div className="min-w-[160px]"></div>
                         )}
                         <a
-                          href={t.button?.vipLink}
+                          href={t.button?.link}
                           target="_blank"
                           onClick={stopPropagation}
-                          className="w-[160px] h-12 flex items-center justify-center text-lg font-bold text-black hover:text-[#85c8d5] bg-white border-4 border-pri-landing cursor-pointer"
+                          className="min-w-[160px] h-12 flex items-center justify-center font-bold text-black hover:text-[#85c8d5] bg-white border-4 border-pri-landing cursor-pointer"
                         >
                           TICKETS
                         </a>
@@ -363,11 +404,24 @@ function LandingPage({ data }) {
                   FOLLOW JOHN MAYER
                 </a>
               </div>
-              <div className="text-center">
-                <button className="mt-24 px-[30px] py-[10px] text-lg bg-pri-landing hover:text-white font-bold">
-                  SHOW ALL DATES
-                </button>
-              </div>
+              {data?.tours?.list?.length > 5 && !isShowAllTour && (
+                <div className="text-center">
+                  <button
+                    onClick={() => setIsShowAllTou(true)}
+                    className={`mt-20 min-w-[200px] py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${
+                      !data?.application_setting?.button_color &&
+                      "bg-[#d18559] hover:bg-[#888fc0] hover:text-white"
+                    }`}
+                    style={{
+                      backgroundColor:
+                        data?.application_setting?.button_color &&
+                        data?.application_setting?.button_color,
+                    }}
+                  >
+                    Show all
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -377,8 +431,11 @@ function LandingPage({ data }) {
           id="subscribe"
           className="mt-[180px] mb-[200px] flex justify-between 2xl:w-[1440px] 2xl:mx-auto"
         >
-          <form className="w-[48%] flex flex-col text-pri-landing">
-            <label htmlFor="email" className="text-sm font-bold">
+          <form className="w-[45%] flex flex-col text-pri-landing">
+            <label
+              htmlFor="email"
+              className="text-xs tracking-[0.2em] font-bold"
+            >
               * EMAIL
             </label>
             <input
@@ -387,9 +444,12 @@ function LandingPage({ data }) {
               name="email"
               placeholder="enter email"
               required
-              className="p-[10px] uppercase pl-0 bg-transparent border-b-[2px] font-medium tracking-widest border-[#d18559] text-[#d18559]"
+              className="p-[10px] uppercase pl-0 bg-transparent border-b-[2px] tracking-widest border-[#d18559] text-[#d18559]"
             />
-            <label htmlFor="contact" className="mt-8 text-sm font-bold">
+            <label
+              htmlFor="contact"
+              className="mt-8 text-xs tracking-[0.2em] font-bold"
+            >
               * CONTACT
             </label>
             <input
@@ -398,7 +458,7 @@ function LandingPage({ data }) {
               name="contact"
               placeholder="enter contact"
               required
-              className="p-[10px] uppercase pl-0 text-base bg-transparent border-b-[2px] text-base font-medium tracking-widest border-[#d18559] text-[#d18559]"
+              className="p-[10px] uppercase pl-0 bg-transparent border-b-[2px] tracking-widest border-[#d18559] text-[#d18559]"
             />
             <button
               type="submit"
@@ -415,7 +475,7 @@ function LandingPage({ data }) {
               SUBMIT
             </button>
           </form>
-          <div className="w-1/2 flex justify-end items-center text-[110px] font-bold text-pri-landing">
+          <div className="w-1/2 flex justify-end items-center text-[110px] font-[900] text-pri-landing">
             Thank You
           </div>
         </div>
@@ -428,14 +488,14 @@ function LandingPage({ data }) {
         }}
       >
         <div className="h-full flex items-center px-8 2xl:w-[1440px] 2xl:mx-auto 2xl:px-0">
-          <div className="flex-1 text-pri-landing-blue">
-            <span>© 2023 Island</span>
-            <span className="ml-6">
+          <div className="flex-1 flex text-pri-landing-blue">
+            <a href="/">© 2023 Island</a>
+            <div className="ml-6">
               Privacy Policy Terms & Conditions Do Not Sell My Personal
               Information Cookie Choices
-            </span>
+            </div>
           </div>
-          <div className="w-2/5 flex items-center justify-end gap-4">
+          <div className="w-fit flex items-center gap-4">
             {socialsData?.map((s, index) => (
               <a key={index} href={s.link}>
                 {s.icon}

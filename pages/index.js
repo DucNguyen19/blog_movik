@@ -145,6 +145,32 @@ function Home() {
             "WONDER LIMITED EDITION ZINE W/ CD & LIMITED COLLECTIBLE CARD PACK VI INSIDE",
           link: "#",
         },
+        {
+          image:
+            "https://www.shawnmendesofficial.com/files/2022/10/ShawnMendes_Wonder_LP-D2C1_0-compressed.jpg",
+          heading: "WONDER LIMITED CLEAR VINYL W/ FOLDOUT POSTER",
+          link: "#",
+        },
+        {
+          image:
+            "https://www.shawnmendesofficial.com/files/2022/10/ShawnMendes_Wonder_CD-CardDeck-01_50_0-compressed.jpg",
+          heading:
+            "WONDER DELUXE PACKAGE CD W/ LIMITED COLLECTIBLE CARD PACK I INSIDE",
+          link: "#",
+        },
+        {
+          image:
+            "https://www.shawnmendesofficial.com/files/2022/10/zine_0.-compressed.jpg",
+          heading:
+            "WONDER LIMITED EDITION ZINE W/ CD & LIMITED COLLECTIBLE CARD PACK VI INSIDE",
+          link: "#",
+        },
+        {
+          image:
+            "https://www.shawnmendesofficial.com/files/2022/10/ShawnMendes_Wonder_LP-D2C1_0-compressed.jpg",
+          heading: "WONDER LIMITED CLEAR VINYL W/ FOLDOUT POSTER",
+          link: "#",
+        },
       ],
     },
     tours: {
@@ -153,7 +179,7 @@ function Home() {
         {
           is_show: true,
           isVip: true,
-          link: "/",
+          link: "/test",
           info: {
             date: "SEP 27, 2023",
             title: "SEMINOLE HARD ROCK HOTEL & CASINO - HOLLYWOOD",
@@ -206,10 +232,39 @@ function Home() {
           isVip: false,
           link: "#",
           info: {
+            date: "OCT 1, 2023",
+            title: "SOUND ON SOUND",
+            artist: "OCEAN CITY, MD",
+            type: "",
+          },
+          button: {
+            vipLink: "#",
+            link: "#",
+          },
+        },
+        {
+          is_show: true,
+          isVip: true,
+          info: {
             date: "SEP 27, 2023",
             title: "SEMINOLE HARD ROCK HOTEL & CASINO - HOLLYWOOD",
             artist: "HOLLYWOOD, FL",
             type: "SOLO ACOUSTIC TOUR.",
+          },
+          button: {
+            vipLink: "#",
+            link: "#",
+          },
+        },
+        {
+          is_show: true,
+          isVip: false,
+          link: "#",
+          info: {
+            date: "OCT 1, 2023",
+            title: "SOUND ON SOUND",
+            artist: "OCEAN CITY, MD",
+            type: "",
           },
           button: {
             vipLink: "#",
