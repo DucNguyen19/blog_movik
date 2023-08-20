@@ -121,10 +121,9 @@ function LandingPage({ data }) {
 
   return (
     <div
-      className={`${textFont.className} ${
-        !data?.application_setting?.background_color &&
+      className={`${textFont.className} ${!data?.application_setting?.background_color &&
         "bg-fixed bg-center bg-cover bg-no-repeat !bg-[url(/images/bg-shawn.png)]"
-      }`}
+        }`}
       style={{
         backgroundColor: data?.application_setting?.background_color,
       }}
@@ -135,7 +134,7 @@ function LandingPage({ data }) {
           backgroundColor: data?.header?.color || "#000",
         }}
       >
-        <div className="h-full flex items-center px-8 2xl:w-[1440px] 2xl:mx-auto 2xl:px-0">
+        <div className="h-full flex items-center px-8 ">
           <div className="w-2/5 flex items-center gap-6">
             {data?.header?.page?.map((p, index) => (
               <a
@@ -229,10 +228,9 @@ function LandingPage({ data }) {
                             {m.heading}
                           </h1>
                           <button
-                            className={`mt-5 py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${
-                              !data?.application_setting?.button_color &&
+                            className={`mt-5 py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${!data?.application_setting?.button_color &&
                               "bg-[#d18559] hover:bg-[#888fc0] hover:text-white"
-                            }`}
+                              }`}
                             style={{
                               backgroundColor:
                                 data?.application_setting?.button_color &&
@@ -326,10 +324,9 @@ function LandingPage({ data }) {
               <div className="text-center">
                 <button
                   onClick={handleShowMore}
-                  className={`mt-20 min-w-[200px] py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${
-                    !data?.application_setting?.button_color &&
+                  className={`mt-20 min-w-[200px] py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${!data?.application_setting?.button_color &&
                     "bg-[#d18559] hover:bg-[#888fc0] hover:text-white"
-                  }`}
+                    }`}
                   style={{
                     backgroundColor:
                       data?.application_setting?.button_color &&
@@ -408,10 +405,9 @@ function LandingPage({ data }) {
                 <div className="text-center">
                   <button
                     onClick={() => setIsShowAllTou(true)}
-                    className={`mt-20 min-w-[200px] py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${
-                      !data?.application_setting?.button_color &&
+                    className={`mt-20 min-w-[200px] py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${!data?.application_setting?.button_color &&
                       "bg-[#d18559] hover:bg-[#888fc0] hover:text-white"
-                    }`}
+                      }`}
                     style={{
                       backgroundColor:
                         data?.application_setting?.button_color &&
@@ -462,10 +458,9 @@ function LandingPage({ data }) {
             />
             <button
               type="submit"
-              className={`mt-10 w-[220px] py-[10px] rounded-3xl text-black font-bold uppercase hover:bg-[#888fc0] transition-colors duration-3000 ${
-                !data?.application_setting?.button_color &&
+              className={`mt-10 w-[220px] py-[10px] rounded-3xl text-black font-bold uppercase hover:bg-[#888fc0] transition-colors duration-3000 ${!data?.application_setting?.button_color &&
                 "bg-[#d18559] hover:bg-[#888fc0]"
-              }`}
+                }`}
               style={{
                 backgroundColor:
                   data?.application_setting?.button_color &&
@@ -487,7 +482,7 @@ function LandingPage({ data }) {
           backgroundColor: data?.header?.color || "#000",
         }}
       >
-        <div className="h-full flex items-center px-8 2xl:w-[1440px] 2xl:mx-auto 2xl:px-0">
+        <div className="h-full flex items-center px-8 ">
           <div className="flex-1 flex text-pri-landing-blue">
             <a href="/">© 2023 Island</a>
             <div className="ml-6">
