@@ -1,6 +1,6 @@
-import React from 'react'
-import LandingPage from '@/components/LandingPage';
-import LayoutAdmin from '@/components/Layout/LayoutAdmin';
+import React from "react";
+import LandingPage from "@/components/LandingPage";
+import LayoutAdmin from "@/components/Layout/LayoutAdmin";
 
 function ViewSite() {
   const data = {
@@ -30,6 +30,14 @@ function ViewSite() {
           title: "Subscribe",
           slug: "#subscribe",
         },
+        // {
+        //   title: "Mới nè",
+        //   slug: "#tour",
+        // },
+        // {
+        //   title: "Mới nữa",
+        //   slug: "#subscribe",
+        // },
       ],
       social: [
         {
@@ -298,16 +306,20 @@ function ViewSite() {
   };
   return (
     <>
-      <div className='relative lg:w-[750px] xl:w-[900px] 2xl:w-[1100px] m-auto shadow-2xl p-1 max-h-[50vh]'>
-        <div>
-          <LandingPage data={data} checkEdit={true} />
-        </div>
+      {/* <div className="relative lg:w-[750px] xl:w-[900px] 2xl:w-[1100px] m-auto shadow-2xl p-1 max-h-[50vh]"> */}
+      <div>
+        <LandingPage
+          data={data}
+          checkEdit={true}
+          classList="w-[calc(100vw-300px)] !-mx-20"
+        />
       </div>
+      {/* </div> */}
     </>
-  )
+  );
 }
 
 ViewSite.getLayout = ({ page, pageProps }) => (
   <LayoutAdmin {...pageProps}>{page}</LayoutAdmin>
 );
-export default ViewSite
+export default ViewSite;

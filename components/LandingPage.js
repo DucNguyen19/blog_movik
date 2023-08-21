@@ -23,7 +23,7 @@ const textFont = Noto_Sans({
   subsets: ["latin"],
 });
 
-function LandingPage({ data, checkEdit }) {
+function LandingPage({ data, classList, checkEdit }) {
   const router = useRouter();
   const [musicSwiper, setMusicSwiper] = useState({});
   const [videoSwiper, setVideoSwiper] = useState({});
@@ -173,7 +173,7 @@ function LandingPage({ data, checkEdit }) {
       className={`${textFont.className} overflow-hidden ${
         !data?.application_setting?.background_color &&
         "bg-fixed bg-center bg-cover bg-no-repeat !bg-[url(/images/bg-shawn.png)]"
-      }`}
+      } ${classList}`}
       style={{
         backgroundColor: data?.application_setting?.background_color,
       }}
@@ -334,8 +334,8 @@ function LandingPage({ data, checkEdit }) {
         {media?.is_show && (
           <div
             id="music"
-            className={`lg:mt-[100px] ${
-              !checkEdit ? "2xl:w-[1440px] 2xl:mx-auto" : ""
+            className={`lg:mt-[100px] 2xl:mx-auto ${
+              !checkEdit ? "2xl:w-[1440px]" : "2xl:w-[1140px]"
             }`}
           >
             <h1 className="my-10 lg:mt-0 lg:mb-10 lg:pl-20 lg:pr-24 text-center lg:text-end text-5xl lg:text-[110px] font-[900] text-pri-landing">
@@ -425,8 +425,8 @@ function LandingPage({ data, checkEdit }) {
         {media?.is_show && (
           <div
             id="video"
-            className={`mt-48 lg:mt-[100px] ${
-              !checkEdit ? "2xl:w-[1440px] 2xl:mx-auto" : ""
+            className={`mt-48 lg:mt-[100px] 2xl:mx-auto ${
+              !checkEdit ? "2xl:w-[1440px]" : "2xl:w-[1140px]"
             }`}
           >
             <h1 className="my-10 lg:mb-10 lg:pl-24 lg:pr-20 text-center lg:text-start text-5xl lg:text-[110px] font-[900] text-pri-landing">
@@ -486,7 +486,9 @@ function LandingPage({ data, checkEdit }) {
         {storeData?.is_show && (
           <div
             id="store"
-            className={`${!checkEdit ? "2xl:w-[1440px] 2xl:mx-auto" : ""}`}
+            className={`2xl:mx-auto ${
+              !checkEdit ? "2xl:w-[1440px]" : "2xl:w-[1140px]"
+            }`}
           >
             <h1 className="mt-20 lg:mt-[100px] mb-14 lg:mb-8 lg:pl-24 lg:pr-20 text-center lg:text-start text-5xl lg:text-[110px] font-[900] text-pri-landing">
               STORE
@@ -529,8 +531,8 @@ function LandingPage({ data, checkEdit }) {
         {tourData?.is_show && (
           <div
             id="tour"
-            className={`mt-48 lg:mt-[100px] ${
-              !checkEdit ? "2xl:w-[1440px] 2xl:mx-auto" : ""
+            className={`mt-48 lg:mt-[100px] 2xl:mx-auto ${
+              !checkEdit ? "2xl:w-[1440px]" : "2xl:w-[1140px]"
             }`}
           >
             {" "}
@@ -625,8 +627,8 @@ function LandingPage({ data, checkEdit }) {
         {/* Subscriber */}
         <div
           id="subscribe"
-          className={`mt-[140px] lg:mt-[180px] mb-[100px] lg:mb-[200px] flex flex-col lg:flex-row justify-between ${
-            !checkEdit ? "2xl:w-[1440px] 2xl:mx-auto" : ""
+          className={`mt-[140px] lg:mt-[180px] mb-[100px] lg:mb-[200px] flex flex-col lg:flex-row justify-between 2xl:mx-auto ${
+            !checkEdit ? "2xl:w-[1440px]" : "2xl:w-[1140px]"
           }`}
         >
           <form className="order-2 lg:order-1 lg:w-[45%] flex flex-col text-pri-landing">
