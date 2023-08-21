@@ -2,6 +2,7 @@ import LandingPage from '@/components/LandingPage';
 import LayoutAdmin from '@/components/Layout/LayoutAdmin';
 import React from 'react'
 import { Layout } from 'antd';
+import Link from 'next/link';
 const { Header, Content, Footer, Sider } = Layout;
 
 function Page() {
@@ -317,18 +318,20 @@ function Page() {
         <p className='pl-10 font-bold text-3xl'>Pages</p>
       </Header>
       <div className='px-10 mt-2'>
-        <div className='border-t-[1px] border-b-[1px] py-4 cursor-pointer hover:bg-[linear-gradient(315deg,#fafafb_60%,#fff)] group flex justify-between'>
-          <div>
-            <p className='font-semibold text-lg'>Home Page</p>
-            <p className='text-[#99a3ad] text-base'>By Admin</p>
-            <p className='text-[#99a3ad] text-base'>Published</p>
-          </div>
-          <div>
-            <div className='border-[1px] border-[#e6e9eb] px-4 py-2 mr-6 group-hover:bg-white'>
-              <svg viewBox="0 0 24 24" width="1rem" height="1rem" fill="none" aria-labelledby="fdead37e-640c-4ad7-8e57-d266c29b97db"><title id="fdead37e-640c-4ad7-8e57-d266c29b97db">Go to Editor</title><defs></defs><path className="group-hover:stroke-cyan-500 page_svg__a" d="M21.982 2.018a3.565 3.565 0 00-5.064.034L2.713 16.256.98 23.02l6.764-1.734L21.948 7.08a3.562 3.562 0 00.034-5.063zM16.512 2.459l5.03 5.029"></path></svg>
+        <Link href={"/admin/edit_page"}>
+          <div className='border-t-[1px] border-b-[1px] py-4 cursor-pointer hover:bg-[linear-gradient(315deg,#fafafb_60%,#fff)] group flex justify-between'>
+            <div>
+              <p className='font-semibold text-lg'>Home Page</p>
+              <p className='text-[#99a3ad] text-base'>By Admin</p>
+              <p className='text-[#99a3ad] text-base'>Published</p>
+            </div>
+            <div>
+              <div className='border-[1px] border-[#e6e9eb] px-4 py-2 mr-6 group-hover:bg-white group-hover:shadow-lg'>
+                <svg viewBox="0 0 24 24" width="1rem" height="1rem" fill="none" aria-labelledby="fdead37e-640c-4ad7-8e57-d266c29b97db"><title id="fdead37e-640c-4ad7-8e57-d266c29b97db">Go to Editor</title><defs></defs><path className="group-hover:stroke-cyan-500 page_svg__a" d="M21.982 2.018a3.565 3.565 0 00-5.064.034L2.713 16.256.98 23.02l6.764-1.734L21.948 7.08a3.562 3.562 0 00.034-5.063zM16.512 2.459l5.03 5.029"></path></svg>
+              </div>
             </div>
           </div>
-        </div>
+        </Link>
       </div>
       {/* <div className='relative lg:w-[750px] xl:w-[900px] 2xl:w-[1100px] m-auto shadow-2xl p-1 max-h-[50vh]'>
         <div>

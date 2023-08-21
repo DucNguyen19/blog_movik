@@ -60,3 +60,7 @@ input {
 	transition: filter 0.1s linear;
 	filter: brightness(1);
 }
+
+.ant-switch {
+	background-color: #9c9c9c;
+}

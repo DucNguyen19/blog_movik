@@ -23,7 +23,7 @@ const textFont = Noto_Sans({
   subsets: ["latin"],
 });
 
-function LandingPage({ data, classList, checkEdit }) {
+function LandingPage({ data, classList, checkEdit, mode }) {
   const router = useRouter();
   const [musicSwiper, setMusicSwiper] = useState({});
   const [videoSwiper, setVideoSwiper] = useState({});
@@ -170,141 +170,141 @@ function LandingPage({ data, classList, checkEdit }) {
 
   return (
     <div
-      className={`${textFont.className} overflow-hidden ${
-        !data?.application_setting?.background_color &&
+      className={`${textFont.className} overflow-hidden ${!data?.application_setting?.background_color &&
         "bg-fixed bg-center bg-cover bg-no-repeat !bg-[url(/images/bg-shawn.png)]"
-      } ${classList}`}
+        } ${classList}`}
       style={{
         backgroundColor: data?.application_setting?.background_color,
       }}
     >
-      <header
-        className={`${
-          !checkEdit ? "fixed" : ""
-        } hidden lg:block z-50 h-[76px] inset-0 shadow-[0_3px_5px_0_rgba(0,0,0,0.1)]`}
-        style={{
-          backgroundColor: data?.header?.color || "#000",
-        }}
-      >
-        <div className="h-full flex items-center px-8 ">
-          <div className="w-2/5 flex items-center gap-3 xl:gap-6">
-            {headerData?.page?.length < 6 ? (
-              headerData?.page?.map((p, index) => (
-                <a
-                  key={index}
-                  href={p.slug}
-                  className="uppercase text-pri-landing-blue hover:text-pri-landing"
-                >
-                  {p.title}
-                </a>
-              ))
-            ) : (
-              <Dropdown
-                menu={{
-                  items,
-                }}
-                className="min-w-[200px]"
-                arrow
-              >
-                <a onClick={(e) => e.preventDefault()}>
-                  <Button
-                    type="primary"
-                    className="!bg-pri-landing-blue flex items-center"
-                  >
-                    <MenuOutlined className="text-base" />
-                  </Button>
-                </a>
-              </Dropdown>
-            )}
-          </div>
-          <a href="/" className="w-1/5 flex justify-center">
-            {/* <img
-              src={data?.header?.image || "/images/logo.png"}
-              className="w-[180px]"
-            /> */}
-            <p className="font-semibold text-xl text-white">Movick Art</p>
-          </a>
-          <div className="w-2/5 flex items-center justify-end gap-4">
-            {socialsData?.map((s, index) => (
-              <a key={index} href={s.link}>
-                {s.icon}
-              </a>
-            ))}
-          </div>
-        </div>
-      </header>
-
-      {/* Header mobile, tablet */}
-      <header
-        className="lg:hidden z-10 h-[60px] fixed inset-0 flex items-center justify-center border-b border-b-[rgba(200,200,200,.1)]"
-        style={{
-          backgroundColor: data?.header?.color || "#000",
-        }}
-      >
-        <a href="/" className="">
-          {/* <img
-            src={headerData?.image || "/images/logo.png"}
-            className="w-[186px] h-[68px]"
-          /> */}
-          <p className="font-semibold text-xl text-white">Movick Art</p>
-        </a>
-        <button
-          onClick={() => setOpenMenu(true)}
-          className="absolute top-1/2 right-5 -translate-y-1/2"
-        >
-          <MenuOutlined
-            style={{
-              fontSize: 30,
-              color: data?.application_setting?.button_color || "#FFC0A5",
-            }}
-          />
-        </button>
-
-        {/* Menu */}
-        <div
-          onClick={() => setOpenMenu(false)}
-          className={`${
-            openMenu ? "z-10 fixed inset-0 bg-black opacity-50" : "opacity-0"
-          }`}
-        ></div>
-        <div
-          className={`${
-            openMenu
-              ? "z-10 translate-x-[30%] md:translate-x-[60%] opacity-1"
-              : "translate-x-full opacity-0"
-          } transition duration-500 ease-in-out fixed inset-0`}
-        >
-          <div
-            className="w-[70%] md:w-[40%] h-full flex flex-col items-center justify-center gap-y-4"
+      {mode != 'editContent' &&
+        <>
+          <header
+            className={`${!checkEdit ? "fixed" : ""
+              } hidden lg:block z-50 h-[76px] inset-0 shadow-[0_3px_5px_0_rgba(0,0,0,0.1)]`}
             style={{
               backgroundColor: data?.header?.color || "#000",
             }}
           >
-            {headerData?.is_show &&
-              headerData?.page?.map((p, index) => (
-                <a
-                  key={index}
-                  href={p.slug}
-                  className="block uppercase text-lg text-pri-landing-blue hover:text-pri-landing"
-                >
-                  {p.title}
-                </a>
-              ))}
-            <div className="mt-2 flex items-center justify-end gap-4">
-              {socialsData?.map((s, index) => (
-                <a key={index} href={s.link}>
-                  {s.icon}
-                </a>
-              ))}
+            <div className="h-full flex items-center px-8 ">
+              <div className="w-2/5 flex items-center gap-3 xl:gap-6">
+                {headerData?.page?.length < 6 ? (
+                  headerData?.page?.map((p, index) => (
+                    <a
+                      key={index}
+                      href={p.slug}
+                      className="uppercase text-pri-landing-blue hover:text-pri-landing"
+                    >
+                      {p.title}
+                    </a>
+                  ))
+                ) : (
+                  <Dropdown
+                    menu={{
+                      items,
+                    }}
+                    className="min-w-[200px]"
+                    arrow
+                  >
+                    <a onClick={(e) => e.preventDefault()}>
+                      <Button
+                        type="primary"
+                        className="!bg-pri-landing-blue flex items-center"
+                      >
+                        <MenuOutlined className="text-base" />
+                      </Button>
+                    </a>
+                  </Dropdown>
+                )}
+              </div>
+              <a href="/" className="w-1/5 flex justify-center">
+                {/* <img
+              src={data?.header?.image || "/images/logo.png"}
+              className="w-[180px]"
+            /> */}
+                <p className="font-semibold text-xl text-white">Movick Art</p>
+              </a>
+              <div className="w-2/5 flex items-center justify-end gap-4">
+                {socialsData?.map((s, index) => (
+                  <a key={index} href={s.link}>
+                    {s.icon}
+                  </a>
+                ))}
+              </div>
             </div>
-          </div>
-        </div>
-      </header>
+          </header>
+
+          {/* Header mobile, tablet */}
+          <header
+            className="lg:hidden z-10 h-[60px] fixed inset-0 flex items-center justify-center border-b border-b-[rgba(200,200,200,.1)]"
+            style={{
+              backgroundColor: data?.header?.color || "#000",
+            }}
+          >
+            <a href="/" className="">
+              {/* <img
+            src={headerData?.image || "/images/logo.png"}
+            className="w-[186px] h-[68px]"
+          /> */}
+              <p className="font-semibold text-xl text-white">Movick Art</p>
+            </a>
+            <button
+              onClick={() => setOpenMenu(true)}
+              className="absolute top-1/2 right-5 -translate-y-1/2"
+            >
+              <MenuOutlined
+                style={{
+                  fontSize: 30,
+                  color: data?.application_setting?.button_color || "#FFC0A5",
+                }}
+              />
+            </button>
+
+            {/* Menu */}
+            <div
+              onClick={() => setOpenMenu(false)}
+              className={`${openMenu ? "z-10 fixed inset-0 bg-black opacity-50" : "opacity-0"
+                }`}
+            ></div>
+            <div
+              className={`${openMenu
+                ? "z-10 translate-x-[30%] md:translate-x-[60%] opacity-1"
+                : "translate-x-full opacity-0"
+                } transition duration-500 ease-in-out fixed inset-0`}
+            >
+              <div
+                className="w-[70%] md:w-[40%] h-full flex flex-col items-center justify-center gap-y-4"
+                style={{
+                  backgroundColor: data?.header?.color || "#000",
+                }}
+              >
+                {headerData?.is_show &&
+                  headerData?.page?.map((p, index) => (
+                    <a
+                      key={index}
+                      href={p.slug}
+                      className="block uppercase text-lg text-pri-landing-blue hover:text-pri-landing"
+                    >
+                      {p.title}
+                    </a>
+                  ))}
+                <div className="mt-2 flex items-center justify-end gap-4">
+                  {socialsData?.map((s, index) => (
+                    <a key={index} href={s.link}>
+                      {s.icon}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </header>
+
+        </>
+      }
 
       <div
-        className={`${
-          !checkEdit ? "mt-[60px] m-5 lg:m-8  lg:mt-[76px]" : "mx-8"
-        } min-h-screen`}
+        className={`${!checkEdit ? "mt-[60px] m-5 lg:m-8  lg:mt-[76px]" : "mx-8"
+          } min-h-screen`}
       >
         {/* Banner */}
         {bannerData?.is_show && (
@@ -334,9 +334,8 @@ function LandingPage({ data, classList, checkEdit }) {
         {media?.is_show && (
           <div
             id="music"
-            className={`lg:mt-[100px] 2xl:mx-auto ${
-              !checkEdit ? "2xl:w-[1440px]" : "2xl:w-[1140px]"
-            }`}
+            className={`lg:mt-[100px] 2xl:mx-auto ${!checkEdit ? "2xl:w-[1440px]" : "2xl:w-[1140px]"
+              }`}
           >
             <h1 className="my-10 lg:mt-0 lg:mb-10 lg:pl-20 lg:pr-24 text-center lg:text-end text-5xl lg:text-[110px] font-[900] text-pri-landing">
               MUSIC
@@ -399,10 +398,9 @@ function LandingPage({ data, classList, checkEdit }) {
                             {m.heading}
                           </h1>
                           <button
-                            className={`mt-5 py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${
-                              !data?.application_setting?.button_color &&
+                            className={`mt-5 py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${!data?.application_setting?.button_color &&
                               "bg-[#d18559] hover:bg-[#888fc0] hover:text-white"
-                            }`}
+                              }`}
                             style={{
                               backgroundColor:
                                 data?.application_setting?.button_color &&
@@ -425,9 +423,8 @@ function LandingPage({ data, classList, checkEdit }) {
         {media?.is_show && (
           <div
             id="video"
-            className={`mt-48 lg:mt-[100px] 2xl:mx-auto ${
-              !checkEdit ? "2xl:w-[1440px]" : "2xl:w-[1140px]"
-            }`}
+            className={`mt-48 lg:mt-[100px] 2xl:mx-auto ${!checkEdit ? "2xl:w-[1440px]" : "2xl:w-[1140px]"
+              }`}
           >
             <h1 className="my-10 lg:mb-10 lg:pl-24 lg:pr-20 text-center lg:text-start text-5xl lg:text-[110px] font-[900] text-pri-landing">
               VIDEOS
@@ -486,9 +483,8 @@ function LandingPage({ data, classList, checkEdit }) {
         {storeData?.is_show && (
           <div
             id="store"
-            className={`2xl:mx-auto ${
-              !checkEdit ? "2xl:w-[1440px]" : "2xl:w-[1140px]"
-            }`}
+            className={`2xl:mx-auto ${!checkEdit ? "2xl:w-[1440px]" : "2xl:w-[1140px]"
+              }`}
           >
             <h1 className="mt-20 lg:mt-[100px] mb-14 lg:mb-8 lg:pl-24 lg:pr-20 text-center lg:text-start text-5xl lg:text-[110px] font-[900] text-pri-landing">
               STORE
@@ -509,10 +505,9 @@ function LandingPage({ data, classList, checkEdit }) {
             <div className="text-center">
               <button
                 onClick={handleShowMore}
-                className={`mt-20 min-w-[200px] py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${
-                  !data?.application_setting?.button_color &&
+                className={`mt-20 min-w-[200px] py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${!data?.application_setting?.button_color &&
                   "bg-[#d18559] hover:bg-[#888fc0] hover:text-white"
-                }`}
+                  }`}
                 style={{
                   backgroundColor:
                     data?.application_setting?.button_color &&
@@ -531,18 +526,16 @@ function LandingPage({ data, classList, checkEdit }) {
         {tourData?.is_show && (
           <div
             id="tour"
-            className={`mt-48 lg:mt-[100px] 2xl:mx-auto ${
-              !checkEdit ? "2xl:w-[1440px]" : "2xl:w-[1140px]"
-            }`}
+            className={`mt-48 lg:mt-[100px] 2xl:mx-auto ${!checkEdit ? "2xl:w-[1440px]" : "2xl:w-[1140px]"
+              }`}
           >
             {" "}
             <h1 className="mb-12 lg:mb-16 lg:pl-20 lg:pr-24 text-center lg:text-end text-5xl lg:text-[110px] font-[900] text-pri-landing">
               TOUR
             </h1>
             <div
-              className={`mx-auto ${
-                !checkEdit ? "w-full xl:w-[76%] " : "w-[86%]"
-              }`}
+              className={`mx-auto ${!checkEdit ? "w-full xl:w-[76%] " : "w-[86%]"
+                }`}
             >
               {tourData?.list?.map(
                 (t, index) =>
@@ -606,10 +599,9 @@ function LandingPage({ data, classList, checkEdit }) {
                 <div className="text-center">
                   <button
                     onClick={toggleShowAllTour}
-                    className={`mt-20 min-w-[200px] py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${
-                      !data?.application_setting?.button_color &&
+                    className={`mt-20 min-w-[200px] py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${!data?.application_setting?.button_color &&
                       "bg-[#d18559] hover:bg-[#888fc0] hover:text-white"
-                    }`}
+                      }`}
                     style={{
                       backgroundColor:
                         data?.application_setting?.button_color &&
@@ -627,9 +619,8 @@ function LandingPage({ data, classList, checkEdit }) {
         {/* Subscriber */}
         <div
           id="subscribe"
-          className={`mt-[140px] lg:mt-[180px] mb-[100px] lg:mb-[200px] flex flex-col lg:flex-row justify-between 2xl:mx-auto ${
-            !checkEdit ? "2xl:w-[1440px]" : "2xl:w-[1140px]"
-          }`}
+          className={`mt-[140px] lg:mt-[180px] mb-[100px] lg:mb-[200px] flex flex-col lg:flex-row justify-between 2xl:mx-auto ${!checkEdit ? "2xl:w-[1440px]" : "2xl:w-[1140px]"
+            }`}
         >
           <form className="order-2 lg:order-1 lg:w-[45%] flex flex-col text-pri-landing">
             <label
@@ -662,10 +653,9 @@ function LandingPage({ data, classList, checkEdit }) {
             />
             <button
               type="submit"
-              className={`mx-auto lg:mx-0 mt-10 w-[220px] py-[10px] rounded-3xl text-black font-bold uppercase hover:bg-[#888fc0] transition-colors duration-3000 ${
-                !data?.application_setting?.button_color &&
+              className={`mx-auto lg:mx-0 mt-10 w-[220px] py-[10px] rounded-3xl text-black font-bold uppercase hover:bg-[#888fc0] transition-colors duration-3000 ${!data?.application_setting?.button_color &&
                 "bg-[#d18559] hover:bg-[#888fc0]"
-              }`}
+                }`}
               style={{
                 backgroundColor:
                   data?.application_setting?.button_color &&
@@ -680,8 +670,7 @@ function LandingPage({ data, classList, checkEdit }) {
           </div>
         </div>
       </div>
-
-      {footerData?.is_show && (
+      {mode != 'editContent' && footerData?.is_show && (
         <footer
           className="py-4 xl:py-0 xl:h-[76px]"
           style={{
