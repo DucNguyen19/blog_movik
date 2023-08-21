@@ -30,6 +30,14 @@ function Home() {
           title: "Subscribe",
           slug: "#subscribe",
         },
+        // {
+        //   title: "Mới nè",
+        //   slug: "#tour",
+        // },
+        // {
+        //   title: "Mới nữa",
+        //   slug: "#subscribe",
+        // },
       ],
       social: [
         {

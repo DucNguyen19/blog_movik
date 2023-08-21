@@ -26,7 +26,7 @@ function VideoModal({ show, videoUrl, onClose }) {
           >
             <button
               onClick={handleClose}
-              className="hidden lg:block absolute -top-5 -right-[78px] bg-gray-300 hover:bg-transparent px-3 py-[6px]"
+              className="hidden xl:block absolute -top-5 -right-[78px] bg-gray-300 hover:bg-transparent px-3 py-[6px]"
             >
               <CloseOutlined className="text-xl text-pri-landing" />
             </button>

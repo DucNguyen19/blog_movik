@@ -16,6 +16,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 
 import VideoModal from "./VideoModal";
+import { Button, Dropdown, Space } from "antd";
 
 const textFont = Noto_Sans({
   weight: ["300", "500", "600", "700", "900"],
@@ -28,6 +29,7 @@ function LandingPage({ data, checkEdit }) {
   const [videoSwiper, setVideoSwiper] = useState({});
   const [storeShowItem, setStoreShowItem] = useState(3);
   const [isShowAllTour, setIsShowAllTou] = useState(false);
+  const [openMenu, setOpenMenu] = useState(false);
   const [videoModalOptions, setVideoModalOptions] = useState({
     open: false,
     url: "",
@@ -117,6 +119,20 @@ function LandingPage({ data, checkEdit }) {
       },
     ],
   };
+  const items =
+    headerData?.page?.length > 5 &&
+    headerData.page.map((p, index) => ({
+      key: index,
+      label: (
+        <a
+          rel="noopener noreferrer"
+          href={p.slug}
+          className="uppercase font-medium text-pri-landing-blue hover:!text-pri-landing"
+        >
+          {p.title}
+        </a>
+      ),
+    }));
 
   const handleOpenVideo = (url) => {
     document.body.classList.add("video-modal-open");
@@ -139,7 +155,17 @@ function LandingPage({ data, checkEdit }) {
   };
 
   const handleShowMore = () => {
-    setStoreShowItem((prevNumItems) => prevNumItems + 3);
+    if (storeShowItem >= storeData?.list?.length) {
+      setStoreShowItem(3);
+      document.querySelector("#store").scrollIntoView();
+    } else setStoreShowItem((prevNumItems) => prevNumItems + 3);
+  };
+
+  const toggleShowAllTour = () => {
+    if (isShowAllTour) {
+      setIsShowAllTou(false);
+      document.querySelector("#tour").scrollIntoView();
+    } else setIsShowAllTou(true);
   };
 
   return (
@@ -155,22 +181,41 @@ function LandingPage({ data, checkEdit }) {
       <header
         className={`${
           !checkEdit ? "fixed" : ""
-        } hidden lg:block z-10 h-[76px] fixed inset-0 shadow-[0_3px_5px_0_rgba(0,0,0,0.1)]`}
+        } hidden lg:block z-50 h-[76px] inset-0 shadow-[0_3px_5px_0_rgba(0,0,0,0.1)]`}
         style={{
           backgroundColor: data?.header?.color || "#000",
         }}
       >
         <div className="h-full flex items-center px-8 ">
-          <div className="w-2/5 flex items-center gap-6">
-            {headerData?.page?.map((p, index) => (
-              <a
-                key={index}
-                href={p.slug}
-                className="uppercase text-pri-landing-blue hover:text-pri-landing"
+          <div className="w-2/5 flex items-center gap-3 xl:gap-6">
+            {headerData?.page?.length < 6 ? (
+              headerData?.page?.map((p, index) => (
+                <a
+                  key={index}
+                  href={p.slug}
+                  className="uppercase text-pri-landing-blue hover:text-pri-landing"
+                >
+                  {p.title}
+                </a>
+              ))
+            ) : (
+              <Dropdown
+                menu={{
+                  items,
+                }}
+                className="min-w-[200px]"
+                arrow
               >
-                {p.title}
-              </a>
-            ))}
+                <a onClick={(e) => e.preventDefault()}>
+                  <Button
+                    type="primary"
+                    className="!bg-pri-landing-blue flex items-center"
+                  >
+                    <MenuOutlined className="text-base" />
+                  </Button>
+                </a>
+              </Dropdown>
+            )}
           </div>
           <a href="/" className="w-1/5 flex justify-center">
             {/* <img
@@ -197,12 +242,16 @@ function LandingPage({ data, checkEdit }) {
         }}
       >
         <a href="/" className="">
-          <img
+          {/* <img
             src={headerData?.image || "/images/logo.png"}
             className="w-[186px] h-[68px]"
-          />
+          /> */}
+          <p className="font-semibold text-xl text-white">Movick Art</p>
         </a>
-        <button className="absolute top-1/2 right-5 -translate-y-1/2">
+        <button
+          onClick={() => setOpenMenu(true)}
+          className="absolute top-1/2 right-5 -translate-y-1/2"
+        >
           <MenuOutlined
             style={{
               fontSize: 30,
@@ -211,7 +260,45 @@ function LandingPage({ data, checkEdit }) {
           />
         </button>
 
-        <div></div>
+        {/* Menu */}
+        <div
+          onClick={() => setOpenMenu(false)}
+          className={`${
+            openMenu ? "z-10 fixed inset-0 bg-black opacity-50" : "opacity-0"
+          }`}
+        ></div>
+        <div
+          className={`${
+            openMenu
+              ? "z-10 translate-x-[30%] md:translate-x-[60%] opacity-1"
+              : "translate-x-full opacity-0"
+          } transition duration-500 ease-in-out fixed inset-0`}
+        >
+          <div
+            className="w-[70%] md:w-[40%] h-full flex flex-col items-center justify-center gap-y-4"
+            style={{
+              backgroundColor: data?.header?.color || "#000",
+            }}
+          >
+            {headerData?.is_show &&
+              headerData?.page?.map((p, index) => (
+                <a
+                  key={index}
+                  href={p.slug}
+                  className="block uppercase text-lg text-pri-landing-blue hover:text-pri-landing"
+                >
+                  {p.title}
+                </a>
+              ))}
+            <div className="mt-2 flex items-center justify-end gap-4">
+              {socialsData?.map((s, index) => (
+                <a key={index} href={s.link}>
+                  {s.icon}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
       </header>
 
       <div
@@ -251,7 +338,7 @@ function LandingPage({ data, checkEdit }) {
               !checkEdit ? "2xl:w-[1440px] 2xl:mx-auto" : ""
             }`}
           >
-            <h1 className="my-10 lg:mt-0 lg:mb-16 lg:pl-20 lg:pr-24 text-center lg:text-end text-5xl lg:text-[110px] font-[900] text-pri-landing">
+            <h1 className="my-10 lg:mt-0 lg:mb-10 lg:pl-20 lg:pr-24 text-center lg:text-end text-5xl lg:text-[110px] font-[900] text-pri-landing">
               MUSIC
             </h1>
             <div className="relative lg:-mt-4 lg:px-16">
@@ -342,7 +429,7 @@ function LandingPage({ data, checkEdit }) {
               !checkEdit ? "2xl:w-[1440px] 2xl:mx-auto" : ""
             }`}
           >
-            <h1 className="my-10 lg:mb-16 lg:pl-24 lg:pr-20 text-center lg:text-start text-5xl lg:text-[110px] font-[900] text-pri-landing">
+            <h1 className="my-10 lg:mb-10 lg:pl-24 lg:pr-20 text-center lg:text-start text-5xl lg:text-[110px] font-[900] text-pri-landing">
               VIDEOS
             </h1>
             <div className="relative lg:-mt-4 lg:px-16">
@@ -372,15 +459,18 @@ function LandingPage({ data, checkEdit }) {
                 {media?.list?.video?.map((v, index) => (
                   <SwiperSlide key={index}>
                     <div className="relative">
-                      <img src={v.image} className="w-full h-full" />
+                      <img
+                        src={v.image}
+                        className="aspect-[16/11] md:aspect-video opacity-60"
+                      />
                       <div className="w-[65%] lg:w-[70%] text-center absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 lg:top-[30%] lg:translate-y-0">
                         <button
                           onClick={() => handleOpenVideo(v.link)}
                           className="-my-2"
                         >
-                          <CaretRightFilled className="text-5xl lg:text-[120px] text-pri-landing hover:text-pri-landing-blue" />
+                          <CaretRightFilled className="text-6xl md:text-8xl lg:text-[120px] text-pri-landing hover:text-pri-landing-blue" />
                         </button>
-                        <h1 className="text-2xl lg:text-4xl lg:leading-[60px] text-center text-pri-landing font-[900]">
+                        <h1 className="text-2xl line-clamp-2 md:line-clamp-3 lg:text-4xl lg:leading-[60px] text-center text-pri-landing font-[900]">
                           {v.heading}
                         </h1>
                       </div>
@@ -396,11 +486,9 @@ function LandingPage({ data, checkEdit }) {
         {storeData?.is_show && (
           <div
             id="store"
-            className={`"mt-24 lg:mt-[100px] ${
-              !checkEdit ? "2xl:w-[1440px] 2xl:mx-auto" : ""
-            }`}
+            className={`${!checkEdit ? "2xl:w-[1440px] 2xl:mx-auto" : ""}`}
           >
-            <h1 className="mb-20 lg:mb-16 lg:pl-24 lg:pr-20 text-center lg:text-start text-5xl lg:text-[110px] font-[900] text-pri-landing">
+            <h1 className="mt-20 lg:mt-[100px] mb-14 lg:mb-8 lg:pl-24 lg:pr-20 text-center lg:text-start text-5xl lg:text-[110px] font-[900] text-pri-landing">
               STORE
             </h1>
             <div className="-mt-3 grid grid-flow-col-1 lg:grid-cols-3 gap-8">
@@ -415,24 +503,25 @@ function LandingPage({ data, checkEdit }) {
                 </div>
               ))}
             </div>
-            {storeShowItem < storeData?.list?.length && (
-              <div className="text-center">
-                <button
-                  onClick={handleShowMore}
-                  className={`mt-20 min-w-[200px] py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${
-                    !data?.application_setting?.button_color &&
-                    "bg-[#d18559] hover:bg-[#888fc0] hover:text-white"
-                  }`}
-                  style={{
-                    backgroundColor:
-                      data?.application_setting?.button_color &&
-                      data?.application_setting?.button_color,
-                  }}
-                >
-                  Show more
-                </button>
-              </div>
-            )}
+
+            <div className="text-center">
+              <button
+                onClick={handleShowMore}
+                className={`mt-20 min-w-[200px] py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${
+                  !data?.application_setting?.button_color &&
+                  "bg-[#d18559] hover:bg-[#888fc0] hover:text-white"
+                }`}
+                style={{
+                  backgroundColor:
+                    data?.application_setting?.button_color &&
+                    data?.application_setting?.button_color,
+                }}
+              >
+                {storeShowItem < storeData?.list?.length
+                  ? "Show more"
+                  : "Show less"}
+              </button>
+            </div>
           </div>
         )}
 
@@ -440,7 +529,7 @@ function LandingPage({ data, checkEdit }) {
         {tourData?.is_show && (
           <div
             id="tour"
-            className={`mt-[40px] ${
+            className={`mt-48 lg:mt-[100px] ${
               !checkEdit ? "2xl:w-[1440px] 2xl:mx-auto" : ""
             }`}
           >
@@ -448,7 +537,11 @@ function LandingPage({ data, checkEdit }) {
             <h1 className="mb-12 lg:mb-16 lg:pl-20 lg:pr-24 text-center lg:text-end text-5xl lg:text-[110px] font-[900] text-pri-landing">
               TOUR
             </h1>
-            <div className={`mx-auto ${!checkEdit ? "w-[76%] " : "w-[86%] "}`}>
+            <div
+              className={`mx-auto ${
+                !checkEdit ? "w-full xl:w-[76%] " : "w-[86%]"
+              }`}
+            >
               {tourData?.list?.map(
                 (t, index) =>
                   t.is_show && (
@@ -471,7 +564,7 @@ function LandingPage({ data, checkEdit }) {
                           {t.info?.type}
                         </div>
                       </div>
-                      <div className="md:w-[40%] flex md:flex-col lg:flex-row justify-center items-center md:items-end md:justify-center lg:items-center gap-2">
+                      <div className="md:w-[40%] flex md:flex-col lg:flex-row justify-center items-center md:items-end md:justify-center lg:justify-end lg:items-center gap-2">
                         {t.isVip ? (
                           <a
                             href={t.button?.vipLink}
@@ -507,10 +600,10 @@ function LandingPage({ data, checkEdit }) {
                   FOLLOW JOHN MAYER
                 </a>
               </div>
-              {data?.tours?.list?.length > 5 && !isShowAllTour && (
+              {data?.tours?.list?.length > 5 && (
                 <div className="text-center">
                   <button
-                    onClick={() => setIsShowAllTou(true)}
+                    onClick={toggleShowAllTour}
                     className={`mt-20 min-w-[200px] py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${
                       !data?.application_setting?.button_color &&
                       "bg-[#d18559] hover:bg-[#888fc0] hover:text-white"
@@ -521,7 +614,7 @@ function LandingPage({ data, checkEdit }) {
                         data?.application_setting?.button_color,
                     }}
                   >
-                    Show all
+                    {isShowAllTour ? "Show less" : "Show all"}
                   </button>
                 </div>
               )}
@@ -580,7 +673,7 @@ function LandingPage({ data, checkEdit }) {
               SUBMIT
             </button>
           </form>
-          <div className="order-1 mb-14 lg:mb-0 lg:w-1/2 flex justify-center lg:justify-end items-center text-[42px] lg:text-[110px] font-[900] text-pri-landing">
+          <div className="order-1 mb-14 lg:mb-0 lg:w-1/2 flex justify-center lg:justify-end items-center text-[42px] lg:text-[80px]  xl:text-[110px] font-[900] text-pri-landing">
             Thank You
           </div>
         </div>
@@ -588,13 +681,13 @@ function LandingPage({ data, checkEdit }) {
 
       {footerData?.is_show && (
         <footer
-          className="py-4 lg:py-0 lg:h-[76px]"
+          className="py-4 xl:py-0 xl:h-[76px]"
           style={{
             backgroundColor: data?.header?.color || "#000",
           }}
         >
-          <div className="h-full flex flex-col gap-y-5 lg:flex-row justify-end items-center px-8">
-            <div className="order-2 lg:order-1 flex-1 flex flex-col lg:flex-row items-center gap-1 lg:gap-2 text-pri-landing-blue">
+          <div className="h-full flex flex-col gap-y-5 lg:gap-y-2 xl:flex-row justify-end items-center px-8">
+            <div className="order-2 xl:order-1 flex-1 flex flex-col lg:flex-row items-center gap-1 lg:gap-2 text-pri-landing-blue">
               <a href={footerData.copy_right_link} className="lg:mr-4">
                 © 2023 Island
               </a>
@@ -602,7 +695,7 @@ function LandingPage({ data, checkEdit }) {
                 <a
                   key={index}
                   href={f.link}
-                  className="text-sm lg:text-base text-center lg:text-start hover:text-pri-landing"
+                  className="text-sm xl:text-base text-center lg:text-start hover:text-pri-landing"
                 >
                   {f.title}
                 </a>
