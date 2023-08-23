@@ -170,18 +170,20 @@ function LandingPage({ data, classList, checkEdit, mode }) {
 
   return (
     <div
-      className={`${textFont.className} overflow-hidden ${!data?.application_setting?.background_color &&
+      className={`${textFont.className} overflow-hidden ${
+        !data?.application_setting?.background_color &&
         "bg-fixed bg-center bg-cover bg-no-repeat !bg-[url(/images/bg-shawn.png)]"
-        } ${classList}`}
+      } ${classList}`}
       style={{
         backgroundColor: data?.application_setting?.background_color,
       }}
     >
-      {mode != 'editContent' &&
+      {mode != "editContent" && (
         <>
           <header
-            className={`${!checkEdit ? "fixed" : ""
-              } hidden lg:block z-50 h-[76px] inset-0 shadow-[0_3px_5px_0_rgba(0,0,0,0.1)]`}
+            className={`${
+              !checkEdit ? "fixed" : ""
+            } hidden lg:block z-50 h-[76px] inset-0 shadow-[0_3px_5px_0_rgba(0,0,0,0.1)]`}
             style={{
               backgroundColor: data?.header?.color || "#000",
             }}
@@ -263,14 +265,18 @@ function LandingPage({ data, classList, checkEdit, mode }) {
             {/* Menu */}
             <div
               onClick={() => setOpenMenu(false)}
-              className={`${openMenu ? "z-10 fixed inset-0 bg-black opacity-50" : "opacity-0"
-                }`}
+              className={`${
+                openMenu
+                  ? "z-10 fixed inset-0 bg-black opacity-50"
+                  : "opacity-0"
+              }`}
             ></div>
             <div
-              className={`${openMenu
-                ? "z-10 translate-x-[30%] md:translate-x-[60%] opacity-1"
-                : "translate-x-full opacity-0"
-                } transition duration-500 ease-in-out fixed inset-0`}
+              className={`${
+                openMenu
+                  ? "z-10 translate-x-[30%] md:translate-x-[60%] opacity-1"
+                  : "translate-x-full opacity-0"
+              } transition duration-500 ease-in-out fixed inset-0`}
             >
               <div
                 className="w-[70%] md:w-[40%] h-full flex flex-col items-center justify-center gap-y-4"
@@ -298,13 +304,13 @@ function LandingPage({ data, classList, checkEdit, mode }) {
               </div>
             </div>
           </header>
-
         </>
-      }
+      )}
 
       <div
-        className={`${!checkEdit ? "mt-[60px] m-5 lg:m-8  lg:mt-[76px]" : "mx-8"
-          } min-h-screen`}
+        className={`${
+          !checkEdit ? "mt-[60px] m-5 lg:m-8  lg:mt-[76px]" : "mx-8"
+        } min-h-screen`}
       >
         {/* Banner */}
         {bannerData?.is_show && (
@@ -332,18 +338,18 @@ function LandingPage({ data, classList, checkEdit, mode }) {
 
         {/* Music */}
         {media?.is_show && (
-          <div
-            id="music"
-            className={`lg:mt-[100px] 2xl:mx-auto ${!checkEdit ? "2xl:w-[1440px]" : "2xl:w-[1140px]"
-              }`}
-          >
-            <h1 className="my-10 lg:mt-0 lg:mb-10 lg:pl-20 lg:pr-24 text-center lg:text-end text-5xl lg:text-[110px] font-[900] text-pri-landing">
+          <div id="music" className="lg:mt-[100px]">
+            <h1 className="my-10 lg:mt-0 lg:mb-10 lg:px-20 text-center lg:text-end text-5xl lg:text-[110px] font-[900] text-pri-landing">
               MUSIC
             </h1>
-            <div className="relative lg:-mt-4 lg:px-16">
+            <div
+              className={`relative lg:-mt-4 ep:px-16 2xl:mx-auto ${
+                !checkEdit ? "2xl:w-[1440px]" : "2xl:[1140px]"
+              }`}
+            >
               <button
                 onClick={() => musicSwiper.slidePrev()}
-                className="hidden lg:block absolute left-0 top-1/2 w-16 -translate-y-1/2"
+                className="hidden ep:block absolute left-0 top-1/2 w-16 -translate-y-1/2"
               >
                 <div className="relative float-left">
                   <CaretLeftFilled className="-ml-[6px] text-2xl text-pri-landing" />
@@ -352,7 +358,7 @@ function LandingPage({ data, classList, checkEdit, mode }) {
               </button>
               <button
                 onClick={() => musicSwiper.slideNext()}
-                className="hidden lg:block absolute right-0 top-1/2 w-16 -translate-y-1/2"
+                className="hidden ep:block absolute right-0 top-1/2 w-16 -translate-y-1/2"
               >
                 <div className="relative float-right">
                   <CaretRightFilled className="-mr-[6px] text-2xl text-pri-landing" />
@@ -366,12 +372,12 @@ function LandingPage({ data, classList, checkEdit, mode }) {
               >
                 {media?.list?.music?.map((m, index) => (
                   <SwiperSlide key={index}>
-                    <div className="flex flex-col gap-y-10 lg:gap-y-0 lg:flex-row">
+                    <div className="flex flex-col gap-y-10 ep:flex-row lg:gap-y-0">
                       <div className="relative w-full px-[12px] lg:px-0 lg:w-1/2 h-full">
                         <img src={m.image} className="w-full h-auto" />
                         <button
                           onClick={() => musicSwiper.slidePrev()}
-                          className="lg:hidden absolute left-0 top-1/2 w-16 -translate-y-1/2"
+                          className="ep:hidden absolute left-0 top-1/2 w-16 -translate-y-1/2"
                         >
                           <div className="relative float-left">
                             <CaretLeftFilled className="-ml-[6px] text-2xl text-pri-landing" />
@@ -380,7 +386,7 @@ function LandingPage({ data, classList, checkEdit, mode }) {
                         </button>
                         <button
                           onClick={() => musicSwiper.slideNext()}
-                          className="lg:hidden absolute right-0 top-1/2 w-16 -translate-y-1/2"
+                          className="ep:hidden absolute right-0 top-1/2 w-16 -translate-y-1/2"
                         >
                           <div className="relative float-right">
                             <CaretRightFilled className="-mr-[6px] text-2xl text-pri-landing" />
@@ -398,9 +404,10 @@ function LandingPage({ data, classList, checkEdit, mode }) {
                             {m.heading}
                           </h1>
                           <button
-                            className={`mt-5 py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${!data?.application_setting?.button_color &&
+                            className={`mt-5 py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${
+                              !data?.application_setting?.button_color &&
                               "bg-[#d18559] hover:bg-[#888fc0] hover:text-white"
-                              }`}
+                            }`}
                             style={{
                               backgroundColor:
                                 data?.application_setting?.button_color &&
@@ -421,15 +428,15 @@ function LandingPage({ data, classList, checkEdit, mode }) {
 
         {/* Video */}
         {media?.is_show && (
-          <div
-            id="video"
-            className={`mt-48 lg:mt-[100px] 2xl:mx-auto ${!checkEdit ? "2xl:w-[1440px]" : "2xl:w-[1140px]"
-              }`}
-          >
-            <h1 className="my-10 lg:mb-10 lg:pl-24 lg:pr-20 text-center lg:text-start text-5xl lg:text-[110px] font-[900] text-pri-landing">
+          <div id="video" className="mt-48 lg:mt-[100px]">
+            <h1 className="my-10 lg:mb-10 lg:px-20 text-center lg:text-start text-5xl lg:text-[110px] font-[900] text-pri-landing">
               VIDEOS
             </h1>
-            <div className="relative lg:-mt-4 lg:px-16">
+            <div
+              className={`relative lg:-mt-4 lg:px-16 2xl:mx-auto ${
+                !checkEdit ? "2xl:w-[1440px]" : "2xl:[1140px]"
+              }`}
+            >
               <button
                 onClick={() => videoSwiper.slidePrev()}
                 className="z-50 absolute left-0 top-1/2 w-16 -translate-y-1/2"
@@ -481,15 +488,15 @@ function LandingPage({ data, classList, checkEdit, mode }) {
 
         {/* Store */}
         {storeData?.is_show && (
-          <div
-            id="store"
-            className={`2xl:mx-auto ${!checkEdit ? "2xl:w-[1440px]" : "2xl:w-[1140px]"
-              }`}
-          >
-            <h1 className="mt-20 lg:mt-[100px] mb-14 lg:mb-8 lg:pl-24 lg:pr-20 text-center lg:text-start text-5xl lg:text-[110px] font-[900] text-pri-landing">
+          <div id="store" className="">
+            <h1 className="mt-20 lg:mt-[100px] mb-14 lg:mb-8 lg:px-20 text-center lg:text-start text-5xl lg:text-[110px] font-[900] text-pri-landing">
               STORE
             </h1>
-            <div className="-mt-3 grid grid-flow-col-1 lg:grid-cols-3 gap-8">
+            <div
+              className={`-mt-3 grid grid-flow-col-1 ep:grid-cols-3 gap-8 2xl:mx-auto ${
+                !checkEdit ? "2xl:w-[1440px]" : "2xl:w-[1140px]"
+              }`}
+            >
               {storeData?.list?.slice(0, storeShowItem).map((s, index) => (
                 <div key={index} className="">
                   <a href={s.link}>
@@ -505,9 +512,10 @@ function LandingPage({ data, classList, checkEdit, mode }) {
             <div className="text-center">
               <button
                 onClick={handleShowMore}
-                className={`mt-20 min-w-[200px] py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${!data?.application_setting?.button_color &&
+                className={`mt-20 min-w-[200px] py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${
+                  !data?.application_setting?.button_color &&
                   "bg-[#d18559] hover:bg-[#888fc0] hover:text-white"
-                  }`}
+                }`}
                 style={{
                   backgroundColor:
                     data?.application_setting?.button_color &&
@@ -524,18 +532,17 @@ function LandingPage({ data, classList, checkEdit, mode }) {
 
         {/* Tour */}
         {tourData?.is_show && (
-          <div
-            id="tour"
-            className={`mt-48 lg:mt-[100px] 2xl:mx-auto ${!checkEdit ? "2xl:w-[1440px]" : "2xl:w-[1140px]"
-              }`}
-          >
+          <div id="tour" className="mt-48 lg:mt-[100px]">
             {" "}
-            <h1 className="mb-12 lg:mb-16 lg:pl-20 lg:pr-24 text-center lg:text-end text-5xl lg:text-[110px] font-[900] text-pri-landing">
+            <h1 className="mb-12 lg:mb-16 lg:px-20 text-center lg:text-end text-5xl lg:text-[110px] font-[900] text-pri-landing">
               TOUR
             </h1>
             <div
-              className={`mx-auto ${!checkEdit ? "w-full xl:w-[76%] " : "w-[86%]"
-                }`}
+              className={`mx-auto ${
+                !checkEdit
+                  ? "w-full 2xl:mx-auto 2xl:w-[1440px] xl:max-w-[76%] "
+                  : "2xl:w-[1140px] max-w-[86%]"
+              }`}
             >
               {tourData?.list?.map(
                 (t, index) =>
@@ -599,9 +606,10 @@ function LandingPage({ data, classList, checkEdit, mode }) {
                 <div className="text-center">
                   <button
                     onClick={toggleShowAllTour}
-                    className={`mt-20 min-w-[200px] py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${!data?.application_setting?.button_color &&
+                    className={`mt-20 min-w-[200px] py-[10px] px-6 rounded-3xl text-black font-bold uppercase transition-colors duration-3000 ${
+                      !data?.application_setting?.button_color &&
                       "bg-[#d18559] hover:bg-[#888fc0] hover:text-white"
-                      }`}
+                    }`}
                     style={{
                       backgroundColor:
                         data?.application_setting?.button_color &&
@@ -619,10 +627,11 @@ function LandingPage({ data, classList, checkEdit, mode }) {
         {/* Subscriber */}
         <div
           id="subscribe"
-          className={`mt-[140px] lg:mt-[180px] mb-[100px] lg:mb-[200px] flex flex-col lg:flex-row justify-between 2xl:mx-auto ${!checkEdit ? "2xl:w-[1440px]" : "2xl:w-[1140px]"
-            }`}
+          className={`mt-[140px] lg:mt-[180px] mb-[100px] lg:mb-[200px] flex flex-col lg:flex-row items-center lg:justify-between 2xl:mx-auto ${
+            !checkEdit ? "2xl:w-[1720px]" : "2xl:w-[1420px]"
+          }`}
         >
-          <form className="order-2 lg:order-1 lg:w-[45%] flex flex-col text-pri-landing">
+          <form className="order-2 lg:order-1 w-full md:w-[540px] lg:max-w-[600px] flex flex-col text-pri-landing">
             <label
               htmlFor="email"
               className="text-[10px] md:text-xs tracking-[0.2em] font-bold"
@@ -653,9 +662,10 @@ function LandingPage({ data, classList, checkEdit, mode }) {
             />
             <button
               type="submit"
-              className={`mx-auto lg:mx-0 mt-10 w-[220px] py-[10px] rounded-3xl text-black font-bold uppercase hover:bg-[#888fc0] transition-colors duration-3000 ${!data?.application_setting?.button_color &&
+              className={`mx-auto lg:mx-0 mt-10 w-[220px] py-[10px] rounded-3xl text-black font-bold uppercase hover:bg-[#888fc0] transition-colors duration-3000 ${
+                !data?.application_setting?.button_color &&
                 "bg-[#d18559] hover:bg-[#888fc0]"
-                }`}
+              }`}
               style={{
                 backgroundColor:
                   data?.application_setting?.button_color &&
@@ -670,7 +680,8 @@ function LandingPage({ data, classList, checkEdit, mode }) {
           </div>
         </div>
       </div>
-      {mode != 'editContent' && footerData?.is_show && (
+
+      {mode != "editContent" && footerData?.is_show && (
         <footer
           className="py-4 xl:py-0 xl:h-[76px]"
           style={{
@@ -678,8 +689,8 @@ function LandingPage({ data, classList, checkEdit, mode }) {
           }}
         >
           <div className="h-full flex flex-col gap-y-5 lg:gap-y-2 xl:flex-row justify-end items-center px-8">
-            <div className="order-2 xl:order-1 flex-1 flex flex-col lg:flex-row items-center gap-1 lg:gap-2 text-pri-landing-blue">
-              <a href={footerData.copy_right_link} className="lg:mr-4">
+            <div className="order-2 xl:order-1 flex-1 flex flex-col ep:flex-row items-center gap-1 ep:gap-2 text-pri-landing-blue">
+              <a href={footerData.copy_right_link} className="ep:mr-4">
                 © 2023 Island
               </a>
               {footerData?.list?.map((f, index) => (
